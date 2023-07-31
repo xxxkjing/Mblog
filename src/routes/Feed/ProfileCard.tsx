@@ -62,7 +62,7 @@ const StyledWrapper = styled.div`
       .name {
         font-size: 1.25rem;
         line-height: 1.75rem;
-        font-style: italic;
+        font-style: normal;
         font-weight: 700;
       }
       .role {
