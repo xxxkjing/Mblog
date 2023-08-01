@@ -32,7 +32,7 @@ export default ServiceCard
 
 const StyledTitle = styled.div`
   padding: 0.25rem;
-`
+` margin-bottom: 0.75rem;
 
 const StyledWrapper = styled.div`
   display: flex;
