@@ -8,7 +8,6 @@ const SearchInput: React.FC<Props> = ({ ...props }) => {
   return (
     <StyledWrapper>
       <div className="top">
-        Search
       </div>
       <input
         className="mid"
