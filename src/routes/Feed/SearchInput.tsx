@@ -8,6 +8,7 @@ const SearchInput: React.FC<Props> = ({ ...props }) => {
   return (
     <StyledWrapper>
       <div className="top">
+        <Emoji>🔎</Emoji> Search
       </div>
       <input
         className="mid"
@@ -39,5 +40,6 @@ const StyledWrapper = styled.div`
     border-radius: 1rem;
     outline-style: none;
     width: 100%;
-    background-color: ${({ theme }) => theme.scheme === "light" ? "white" : theme.colors.gray4};
+    background-color: ${({ theme }) => theme.colors.gray4};
+  }
 `
