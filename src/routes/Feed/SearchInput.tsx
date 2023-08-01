@@ -12,7 +12,7 @@ const SearchInput: React.FC<Props> = ({ ...props }) => {
       <input
         className="mid"
         type="text"
-        placeholder="looking for something?"
+        placeholder="Search Keyword..."
         {...props}
       />
     </StyledWrapper>
@@ -39,7 +39,5 @@ const StyledWrapper = styled.div`
     border-radius: 1rem;
     outline-style: none;
     width: 100%;
-    background-color: ${({ theme }) =>
-      theme.scheme === "light" ? "white" : theme.colors.gray4};
-  }
+    background-color: ${({ theme }) => theme.scheme === "light" ? "white" : theme.colors.gray4};
 `
