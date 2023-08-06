@@ -10,7 +10,6 @@ const ProfileCard: React.FC<Props> = () => {
   return (
     <StyledWrapper>
       <div className="title">
-        Profile
       </div>
       <div className="content">
         <div className="top">
