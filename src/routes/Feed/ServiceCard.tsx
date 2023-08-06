@@ -3,7 +3,6 @@ import React from "react"
 import { AiFillCodeSandboxCircle } from "react-icons/ai"
 import styled from "@emotion/styled"
 import { Emoji } from "src/components/Emoji"
-
 const ServiceCard: React.FC = () => {
   if (!CONFIG.projects) return null
   return (
@@ -27,7 +26,6 @@ const ServiceCard: React.FC = () => {
     </>
   )
 }
-
 export default ServiceCard
 
 const StyledTitle = styled.div`
@@ -36,6 +34,17 @@ const StyledTitle = styled.div`
 
 const StyledWrapper = styled.div`
   display: flex;
+
+    
+          
+            
+    
+
+          
+          Expand Down
+    
+    
+  
   padding: 0.25rem;
   margin-bottom: 2.25rem;
   flex-direction: column;
@@ -50,7 +59,6 @@ const StyledWrapper = styled.div`
     border-radius: 1rem;
     color: ${({ theme }) => theme.colors.gray11};
     cursor: pointer;
-
     :hover {
       color: ${({ theme }) => theme.colors.gray12};
       background-color: ${({ theme }) => theme.colors.gray5};
