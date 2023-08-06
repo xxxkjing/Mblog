@@ -8,7 +8,7 @@ const ServiceCard: React.FC = () => {
   return (
     <>
       <StyledTitle>
-        Contact
+
       </StyledTitle>
       <StyledWrapper>
         {CONFIG.projects.map((project, idx) => (
