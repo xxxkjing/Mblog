@@ -14,7 +14,6 @@ const FeedHeader: React.FC<Props> = () => {
     </StyledWrapper>
   )
 }
-
 export default FeedHeader
 
 const StyledWrapper = styled.div`
