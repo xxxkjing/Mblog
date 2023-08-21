@@ -1,7 +1,9 @@
 import styled from "@emotion/styled"
 import React, { InputHTMLAttributes, ReactNode } from "react"
 import { Emoji } from "src/components/Emoji"
+
 interface Props extends InputHTMLAttributes<HTMLInputElement> {}
+
 const SearchInput: React.FC<Props> = ({ ...props }) => {
   return (
     <StyledWrapper>
@@ -17,9 +19,12 @@ const SearchInput: React.FC<Props> = ({ ...props }) => {
     </StyledWrapper>
   )
 }
+
 export default SearchInput
+
 const StyledWrapper = styled.div`
   margin-bottom: 1rem;
+
   @media (min-width: 768px) {
     margin-bottom: 2rem;
   }
