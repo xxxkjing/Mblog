@@ -11,7 +11,7 @@ import styled from "@emotion/styled"
 const ContactCard: React.FC = () => {
   return (
     <>
-      
+      <StyledTitle></StyledTitle>
       <StyledWrapper>
         {CONFIG.profile.linkedin && (
           <a
@@ -61,6 +61,7 @@ const ContactCard: React.FC = () => {
 
 export default ContactCard
 
+const StyledTitle = styled.div`
 
 `
 const StyledWrapper = styled.div`
