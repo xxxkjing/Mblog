@@ -11,7 +11,7 @@ import styled from "@emotion/styled"
 const ContactCard: React.FC = () => {
   return (
     <>
-      <StyledTitle></StyledTitle>
+      
       <StyledWrapper>
         {CONFIG.profile.linkedin && (
           <a
@@ -45,7 +45,7 @@ const ContactCard: React.FC = () => {
         )}
         {CONFIG.profile.email && (
           <a
-            href="tejjas15@gmail.com"
+            href={`mailto:${CONFIG.profile.email}`}
             rel="noreferrer"
             target="_blank"
             css={{ overflow: "hidden" }}
@@ -61,9 +61,7 @@ const ContactCard: React.FC = () => {
 
 export default ContactCard
 
-const StyledTitle = styled.div`
-  padding: 0.25rem;
-  margin-bottom: 0.75rem;
+
 `
 const StyledWrapper = styled.div`
   display: flex;
