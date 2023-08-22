@@ -8,9 +8,7 @@ const ServiceCard: React.FC = () => {
   if (!CONFIG.projects) return null
   return (
     <>
-      <StyledTitle>
-        <Emoji>🌟</Emoji> Service
-      </StyledTitle>
+
       <StyledWrapper>
         {CONFIG.projects.map((project, idx) => (
           <a
@@ -30,10 +28,7 @@ const ServiceCard: React.FC = () => {
 
 export default ServiceCard
 
-const StyledTitle = styled.div`
-  padding: 0.25rem;
-  margin-bottom: 0.75rem;
-`
+
 
 const StyledWrapper = styled.div`
   display: flex;
