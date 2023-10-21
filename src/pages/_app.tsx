@@ -4,19 +4,21 @@ import { RootLayout } from "src/layouts";
 import { queryClient } from "src/libs/react-query";
 import { ThemeProvider } from "@emotion/react";
 import { createTheme } from "../styles/theme";
-import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons"; // Import FontAwesome icons
-import { library } from "@fortawesome/fontawesome-svg-core"; // Import the library
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
+
+// Initialize FontAwesome library with the icons
+library.add(faSun, faMoon);
 
 function App({ Component, pageProps }: AppPropsWithLayout) {
-  const getLayout = Component.getLayout || ((page) => page);
-
-  const theme = createTheme({ scheme: "light" }); // Create your theme
-
-  // Initialize the FontAwesome library with the icons
-  library.add(faSun, faMoon);
+  // Create your theme based on the selected scheme
+  const theme = createTheme({ scheme: "light" });
 
   // Use the FontAwesome icons for light and dark modes
   theme.modeIcon = theme.scheme === "light" ? faSun : faMoon;
+
+  // Define the layout to be used, or use the page component if not specified
+  const getLayout = Component.getLayout || ((page) => page);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -30,3 +32,4 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
 }
 
 export default App;
+
