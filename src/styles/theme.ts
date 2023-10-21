@@ -2,8 +2,9 @@ import { Theme } from "@emotion/react";
 import { Colors, colors } from "./colors";
 import { variables } from "./variables";
 import { zIndexes } from "./zIndexes";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // Import FontAwesome from @fortawesome/react-fontawesome
-import { IconDefinition } from "@fortawesome/fontawesome-common-types"; // Import IconDefinition for TypeScript typings
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconDefinition, library } from "@fortawesome/fontawesome-svg-core";
+import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
 
 declare module "@emotion/react" {
   export interface Theme {
@@ -11,7 +12,7 @@ declare module "@emotion/react" {
     colors: Colors;
     zIndexes: typeof zIndexes;
     variables: typeof variables;
-    modeIcon: IconDefinition; // Use IconDefinition for modeIcon property
+    modeIcon: IconDefinition;
   }
 }
 
@@ -22,14 +23,13 @@ type Options = {
 };
 
 export const createTheme = (options: Options): Theme => {
-  const getSunIcon = (): IconDefinition => ["fas", "sun"];
-  const getMoonIcon = (): IconDefinition => ["fas", "moon"];
+  library.add(faSun, faMoon); // Add FontAwesome icons to the library
 
   return {
     scheme: options.scheme,
     colors: colors[options.scheme],
     variables: variables,
     zIndexes: zIndexes,
-    modeIcon: options.scheme === "light" ? getSunIcon() : getMoonIcon(),
+    modeIcon: options.scheme === "light" ? faSun : faMoon,
   };
 };
