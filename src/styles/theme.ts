@@ -10,6 +10,7 @@ declare module "@emotion/react" {
     colors: Colors;
     zIndexes: typeof zIndexes;
     variables: typeof variables;
+    modeIcon: JSX.Element; // Add modeIcon property to the Theme
   }
 }
 
@@ -24,12 +25,5 @@ export const createTheme = (options: Options): Theme => ({
   colors: colors[options.scheme],
   variables: variables,
   zIndexes: zIndexes,
+  modeIcon: options.scheme === "light" ? <FontAwesomeIcon icon="sun" /> : <FontAwesomeIcon icon="moon" />, // Define modeIcon based on the scheme
 });
-
-// Define icons for light and dark modes
-const lightIcon = <FontAwesomeIcon icon="sun" />; // Example FontAwesome icon for light mode
-const darkIcon = <FontAwesomeIcon icon="moon" />; // Example FontAwesome icon for dark mode
-
-export const getModeIcon = (scheme: Scheme) => {
-  return scheme === "light" ? lightIcon : darkIcon;
-};
