@@ -32,7 +32,7 @@
   "react-notion-x": "^6.16.0",
   "@fortawesome/fontawesome-svg-core": "^6.4.2",
   "@fortawesome/free-solid-svg-icons": "^6.4.2",
-  "@fortawesome/react-fontawesome": "^6.4.2"
+  "@fortawesome/react-fontawesome": "^0.2.0"
 },
   "devDependencies": {
     "@types/gtag.js": "^0.0.12",
