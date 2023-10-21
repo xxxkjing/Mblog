@@ -5,6 +5,7 @@ import { queryClient } from "src/libs/react-query";
 import { ThemeProvider } from "@emotion/react";
 import { createTheme } from "../styles/theme";
 import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons"; // Import FontAwesome icons
+import { library } from "@fortawesome/fontawesome-svg-core"; // Import the library
 
 function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout || ((page) => page);
