@@ -12,7 +12,7 @@ const SearchInput: React.FC<Props> = ({ ...props }) => {
       <input
         className="mid"
         type="text"
-        placeholder="looking for something?"
+        placeholder="What are you looking for?"
         {...props}
       />
     </StyledWrapper>
@@ -23,6 +23,7 @@ export default SearchInput
 
 const StyledWrapper = styled.div`
   margin-bottom: 1rem;
+  margin-top: 0.1rem;
 
   @media (min-width: 768px) {
     margin-bottom: 2rem;
