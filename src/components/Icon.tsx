@@ -6,7 +6,7 @@ type Props = {
   icon: IconDefinition; // FontAwesome icon definition
   className?: string;
   children?: ReactNode;
-  size?: SizeProp; // FontAwesome size (e.g., 'lg', '2x', '3x', 'xs', etc.) or undefined
+  size?: string; // FontAwesome size (e.g., 'lg', '2x', '3x', 'xs', etc.) or undefined
   color?: string; // FontAwesome icon color
 };
 
@@ -19,4 +19,5 @@ const Icon = ({ icon, className, children, size, color = "currentColor" }: Props
 };
 
 export default Icon;
+
 
