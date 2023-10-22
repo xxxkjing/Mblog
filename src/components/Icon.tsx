@@ -1,23 +1,16 @@
-import React, { ReactNode } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import React from 'react';
+import Icon from './Icon'; // Adjust the import path as needed
+import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
 
-type Props = {
-  icon: IconDefinition; // FontAwesome icon definition
-  className?: string;
-  children?: ReactNode;
-  size?: string; // FontAwesome size (e.g., 'lg', '2x', '3x', 'xs', etc.) or undefined
-  color?: string; // FontAwesome icon color
-};
-
-const Icon = ({ icon, className, children, size, color = "currentColor" }: Props) => {
+function MyComponent() {
   return (
-    <FontAwesomeIcon icon={icon} size={size} color={color} className={className}>
-      {children}
-    </FontAwesomeIcon>
+    <div>
+      <Icon icon={faSun} size="2x" color="orange" />
+      <Icon icon={faMoon} size="2x" color="gray" />
+      {/* Other content */}
+    </div>
   );
-};
+}
 
-export default Icon;
-
+export default MyComponent;
 
