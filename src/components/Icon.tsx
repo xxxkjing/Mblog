@@ -1,12 +1,6 @@
 import React from 'react';
-import Icon from './Icon'; // Adjust the import path as needed
-import { faSun, faMoon, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-
-interface IconProps {
-  icon: IconDefinition;
-  size: string;
-  color: string;
-}
+import Icon from './Icon'; // Import your custom Icon component
+import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
 
 function MyComponent() {
   return (
