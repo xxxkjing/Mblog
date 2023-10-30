@@ -1,5 +1,5 @@
 import React from 'react';
-import Icon from './Icon'; // This imports the Icon component from Icon.tsx
+import Icon from './src/components/Icon';
 import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
 
 const MyComponent: React.FC = () => {
