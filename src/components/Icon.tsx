@@ -1,5 +1,5 @@
 import React from 'react';
-import Icon from './Icon'; // Import your custom Icon component
+import Icon from './icon'; // Import your custom Icon component
 import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
 
 function MyComponent() {
