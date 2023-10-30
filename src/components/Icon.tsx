@@ -1,15 +1,16 @@
 import React from 'react';
-import Icon from './Icon'; // Import your custom Icon component
-import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 
-function MyComponent() {
-  return (
-    <div>
-      <Icon icon={faSun} size="2x" color="orange" />
-      <Icon icon={faMoon} size="2x" color="gray" />
-      {/* Other content */}
-    </div>
-  );
+interface IconProps {
+  icon: IconDefinition;
+  size?: string;
+  color?: string;
 }
 
-export default MyComponent;
+const Icon: React.FC<IconProps> = ({ icon, size, color }) => {
+  return <FontAwesomeIcon icon={icon} size={size} color={color} />;
+};
+
+export default Icon;
+
