@@ -2,8 +2,8 @@ const CONFIG = {
   // profile setting (required)
   profile: {
     name: "tejjas kaul",
-    image: "/avatar.svg", // If you want to create your own notion avatar, check out https://notion-avatar.vercel.app
-    role: "HS Student | Neuro",
+    image: "/avatar.png", // If you want to create your own notion avatar, check out https://notion-avatar.vercel.app
+    role: "neuroethics & tech",
     bio: "This little nook on the internet showcases what I've learned about the brain and the tech surrounding it.",
     email: "tejjas15@gmail.com",
     linkedin: "Tejjas Kaul",
