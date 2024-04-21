@@ -47,5 +47,9 @@
     "postcss": "^8.3.11",
     "prettier": "^2.7.1",
     "typescript": "5.4.5"
-  }
+  },
+  "sideEffects": [
+    "*.css",
+    "src/your-file-with-fa-imports.js"
+  ]
 }
