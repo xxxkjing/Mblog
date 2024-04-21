@@ -21,15 +21,6 @@ const RootLayout = ({ children }: Props) => {
       <Scripts />
       <Header fullWidth={false} />
       <StyledMain>{children}</StyledMain>
-      <Footer>
-        <LinksContainer>
-          <a href="/resume"><FiFile /></a>
-          <a href="https://www.linkedin.com/in/yourprofile"><FaLinkedin /></a>
-          <a href="https://github.com/yourusername"><FaGithub /></a>
-          <a href="https://www.instagram.com/yourprofile"><FaInstagram /></a>
-        </LinksContainer>
-        <Image src="/images/handwave.png" alt="Tejjas Kaul" width="100" height="100" />
-      </Footer>
     </ThemeProvider>
   );
 };
