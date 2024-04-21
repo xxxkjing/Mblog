@@ -17,3 +17,13 @@ export type Scheme = "light" | "dark";
 type Options = {
   scheme: Scheme;
 };
+
+export const createTheme = (options: Options): Theme => {
+
+  return {
+    scheme: options.scheme,
+    colors: colors[options.scheme],
+    variables: variables,
+    zIndexes: zIndexes,
+  };
+};
