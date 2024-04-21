@@ -47,5 +47,8 @@
     "postcss": "^8.3.11",
     "prettier": "^2.7.1",
     "typescript": "5.4.5"
+  },
+  "resolutions": {
+    "fs": "^0.0.1"
   }
 }
