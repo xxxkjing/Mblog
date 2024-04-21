@@ -14,13 +14,13 @@ const IndexPage: NextPage = () => {
           <h2>tejjas kaul</h2>
         </div>
         <LinksContainer>
-          <a href="https://docs.google.com/document/d/1SVg5OicX0dVmVkmRItPTlU5I_I7bLPGrKWgzEr2HdlA/edit?usp=sharing"><FontAwesomeIcon icon={faFileAlt} /></a>
-          <a href="https://www.linkedin.com/in/tejjas-kaul-36091a22b/"><FontAwesomeIcon icon={faLinkedin} /></a>
-          <a href="https://github.com/tkpepper15"><FontAwesomeIcon icon={faGithub} /></a>
-          <a href="https://www.instagram.com/tejjaskphoto/"><FontAwesomeIcon icon={faInstagram} /></a>
+          <a href="/resume"><FontAwesomeIcon icon={faFileAlt} /></a>
+          <a href="https://www.linkedin.com/in/yourprofile"><FontAwesomeIcon icon={faLinkedin} /></a>
+          <a href="https://github.com/yourusername"><FontAwesomeIcon icon={faGithub} /></a>
+          <a href="https://www.instagram.com/yourprofile"><FontAwesomeIcon icon={faInstagram} /></a>
         </LinksContainer>
       </NameAndLinks>
-      <Image src="/images/handwave.png" alt="Tejjas Kaul" width="200" height="200" />
+      <Image src="/images/handwave.png" alt="Tejjas Kaul" width="100" height="100" />
     </StyledContainer1>
   );
 };
