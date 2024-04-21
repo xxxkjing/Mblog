@@ -1,4 +1,3 @@
-import React from "react";
 import { NextPage } from "next";
 import styled from "@emotion/styled";
 import Image from "next/image";
@@ -19,7 +18,7 @@ const IndexPage: NextPage = () => {
           <a href="https://www.instagram.com/yourprofile"><FaInstagram /></a>
         </LinksContainer>
       </NameAndLinks>
-      <Image src="/images/handwave.png" alt="Tejjas Kaul" width="100" height="100" />
+      <Image src="/images/handwave.png" alt="Tejjas Kaul" width={100} height={100} />
     </StyledContainer1>
   );
 };
