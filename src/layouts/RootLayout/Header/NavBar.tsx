@@ -1,8 +1,17 @@
-import styled from "@emotion/styled"
-import Link from "next/link"
+import styled from "@emotion/styled";
+import Link from "next/link";
+
+interface LinkItem {
+  id: number;
+  name: string;
+  to: string;
+}
 
 const NavBar: React.FC = () => {
-  const links = [{ id: 1, name: "about", to: "/about" }]
+  const links: LinkItem[] = [
+    { id: 2, name: "blog", to: "/blog" },
+  ];
+
   return (
     <StyledWrapper className="">
       <ul>
@@ -13,12 +22,12 @@ const NavBar: React.FC = () => {
         ))}
       </ul>
     </StyledWrapper>
-  )
-}
+  );
+};
 
-export default NavBar
+export default NavBar;
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled.nav`
   flex-shrink: 0;
   ul {
     display: flex;
@@ -29,4 +38,4 @@ const StyledWrapper = styled.div`
       color: ${({ theme }) => theme.colors.gray11};
     }
   }
-`
+`;

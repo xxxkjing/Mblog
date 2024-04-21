@@ -14,15 +14,17 @@ const Footer: React.FC<Props> = ({ className }) => {
   return (
     <StyledWrapper className={className}>
       <a
-        href={`https://github.com/${CONFIG.profile.github}`}
+        href={`https://github.com/morethanmin/morethan-log`}
         target="_blank"
-        rel="noreferrer"
+        rel="noopener noreferrer"
+        className="underline-link" // Added class for styling
       >
-        © {CONFIG.profile.name} {from === y || !from ? y : `${from} - ${y}`}
+        Forked from morethan-log
       </a>
     </StyledWrapper>
-  )
-}
+  );
+};
+
 
 export default Footer
 

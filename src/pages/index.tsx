@@ -1,40 +1,22 @@
-import Feed from "src/routes/Feed"
-import { CONFIG } from "../../site.config"
-import { NextPageWithLayout } from "../types"
-import { getPosts } from "../apis"
-import MetaConfig from "src/components/MetaConfig"
-import { queryClient } from "src/libs/react-query"
-import { queryKey } from "src/constants/queryKey"
-import { GetStaticProps } from "next"
-import { dehydrate } from "@tanstack/react-query"
-import { filterPosts } from "src/libs/utils/notion"
+// index.tsx
 
-export const getStaticProps: GetStaticProps = async () => {
-  const posts = filterPosts(await getPosts())
-  await queryClient.prefetchQuery(queryKey.posts(), () => posts)
+import React from "react";
+import { NextPage } from "next";
+import styled from "@emotion/styled";
 
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-    revalidate: CONFIG.revalidateTime,
-  }
-}
-
-const FeedPage: NextPageWithLayout = () => {
-  const meta = {
-    title: CONFIG.blog.title,
-    description: CONFIG.blog.description,
-    type: "website",
-    url: CONFIG.link,
-  }
-
+const IndexPage: NextPage = () => {
   return (
-    <>
-      <MetaConfig {...meta} />
-      <Feed />
-    </>
-  )
-}
+    <StyledContainer>
+      <h1>Tejjas Kaul</h1>
+      <p>Seeking opportunities for hands-on research in neuroscience and technology.</p>
+    </StyledContainer>
+  );
+};
 
-export default FeedPage
+const StyledContainer = styled.div`
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+`;
+
+export default IndexPage;

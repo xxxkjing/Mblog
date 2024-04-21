@@ -1,6 +1,5 @@
-import styled from "@emotion/styled"
-import React, { InputHTMLAttributes, ReactNode } from "react"
-import { Emoji } from "src/components/Emoji"
+import styled from "@emotion/styled";
+import React, { InputHTMLAttributes, ReactNode } from "react";
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {}
 
@@ -9,17 +8,19 @@ const SearchInput: React.FC<Props> = ({ ...props }) => {
     <StyledWrapper>
       <div className="top">
       </div>
-      <input
-        className="mid"
-        type="text"
-        placeholder="What are you looking for?"
-        {...props}
-      />
+      <div className="mid">
+        <input
+          className="input-wrapper"
+          type="text"
+          placeholder="What are you looking for?"
+          {...props}
+        />
+      </div>
     </StyledWrapper>
-  )
-}
+  );
+};
 
-export default SearchInput
+export default SearchInput;
 
 const StyledWrapper = styled.div`
   margin-bottom: 1rem;
@@ -28,19 +29,56 @@ const StyledWrapper = styled.div`
   @media (min-width: 768px) {
     margin-bottom: 2rem;
   }
-  > .top {
+
+  .top {
+    display: flex;
+    align-items: center;
     padding: 0.25rem;
     margin-bottom: 0.75rem;
   }
-  > .mid {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
-    border-radius: 1rem;
-    outline-style: none;
-    width: 100%;
+
+  .mid {
+    display: flex;
+    align-items: center;
     background-color: ${({ theme }) =>
       theme.scheme === "light" ? "white" : theme.colors.gray4};
+    border-radius: 1rem;
+    padding: 0.5rem;
   }
-`
+
+  .input-wrapper {
+    flex: 1;
+    width: 100%;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    padding: 0.5rem;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    background-color: transparent;
+    transition: background-color 0.3s ease;
+  }
+
+  input[type="text"]:focus {
+    background-color: ${({ theme }) => theme.colors.gray2};
+  }
+
+  button {
+    padding: 0.5rem 1rem;
+    border: none;
+    outline: none;
+    border-radius: 0.5rem;
+    background-color: ${({ theme }) => theme.colors.gray1};
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+    background-color: ${({ theme }) => theme.colors.gray1};
+  }
+`;
