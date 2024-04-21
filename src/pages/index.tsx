@@ -2,9 +2,8 @@ import React from "react";
 import { NextPage } from "next";
 import styled from "@emotion/styled";
 import Image from "next/image";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileAlt } from "@fortawesome/free-solid-svg-icons";
-import { faLinkedin, faGithub, faInstagram } from "@fortawesome/free-brands-svg-icons";
+import { FiFile } from "react-icons/fi";
+import { FaLinkedin, FaGithub, FaInstagram } from "react-icons/fa";
 
 const IndexPage: NextPage = () => {
   return (
@@ -14,10 +13,10 @@ const IndexPage: NextPage = () => {
           <h2>tejjas kaul</h2>
         </div>
         <LinksContainer>
-          <a href="/resume"><FontAwesomeIcon icon={faFileAlt} /></a>
-          <a href="https://www.linkedin.com/in/yourprofile"><FontAwesomeIcon icon={faLinkedin} /></a>
-          <a href="https://github.com/yourusername"><FontAwesomeIcon icon={faGithub} /></a>
-          <a href="https://www.instagram.com/yourprofile"><FontAwesomeIcon icon={faInstagram} /></a>
+          <a href="/resume"><FiFile /></a>
+          <a href="https://www.linkedin.com/in/yourprofile"><FaLinkedin /></a>
+          <a href="https://github.com/yourusername"><FaGithub /></a>
+          <a href="https://www.instagram.com/yourprofile"><FaInstagram /></a>
         </LinksContainer>
       </NameAndLinks>
       <Image src="/images/handwave.png" alt="Tejjas Kaul" width="100" height="100" />
