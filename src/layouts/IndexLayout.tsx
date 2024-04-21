@@ -1,4 +1,3 @@
-
 // src/layouts/indexLayout.tsx
 import React, { ReactNode, useEffect } from "react";
 import { useRouter } from "next/router";
@@ -11,7 +10,7 @@ type LayoutProps = {
   children: ReactNode;
 };
 
-const indexLayout: React.FC<LayoutProps> = ({ children }) => {
+const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
   const router = useRouter();
   const isIndexPage = router.pathname === "/";
 
@@ -23,18 +22,15 @@ const indexLayout: React.FC<LayoutProps> = ({ children }) => {
     <Container>
       {isIndexPage && (
         <Header>
-          <NameAndLinks>
-            <div>
-              <h2>tejjas kaul</h2>
-            </div>
-            <LinksContainer>
-              <a href="https://docs.google.com/document/d/1SVg5OicX0dVmVkmRItPTlU5I_I7bLPGrKWgzEr2HdlA/edit?usp=sharing"><FiFile /></a>
-              <a href="https://www.linkedin.com/in/tejjas-kaul-36091a22b/"><FaLinkedin /></a>
-              <a href="https://github.com/tkpepper15"><FaGithub /></a>
-              <a href="https://www.instagram.com/tejjaskphoto/"><FaInstagram /></a>
-            </LinksContainer>
-          </NameAndLinks>
-          <Image src="/images/handwave.png" alt="Tejjas Kaul" width={100} height={100} />
+          <ImageContainer>
+            <Image src="/images/handwave.png" alt="Tejjas Kaul" width={100} height={100} />
+            <SocialLinks>
+              <a href="https://docs.google.com/document/d/1SVg5OicX0dVmVkmRItPTlU5I_I7bLPGrKWgzEr2HdlA/edit?usp=sharing" target="_blank" rel="noopener noreferrer"><FiFile /></a>
+              <a href="https://www.linkedin.com/in/tejjas-kaul-36091a22b/" target="_blank" rel="noopener noreferrer"><FaLinkedin /></a>
+              <a href="https://github.com/tkpepper15" target="_blank" rel="noopener noreferrer"><FaGithub /></a>
+              <a href="https://www.instagram.com/tejjaskphoto/" target="_blank" rel="noopener noreferrer"><FaInstagram /></a>
+            </SocialLinks>
+          </ImageContainer>
         </Header>
       )}
       <Main>{children}</Main>
@@ -55,19 +51,25 @@ const Header = styled.header`
   text-align: center;
 `;
 
-const NameAndLinks = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+const ImageContainer = styled.div`
+  position: relative;
 `;
 
-const LinksContainer = styled.div`
+const SocialLinks = styled.div`
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   gap: 10px;
+  background-color: ${({ theme }) => theme.colors.gray1};
+  padding: 5px;
+  border-radius: 10%;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 `;
 
 const Main = styled.main`
   flex: 1;
 `;
 
-export default indexLayout;
+export default IndexLayout;

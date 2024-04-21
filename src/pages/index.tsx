@@ -6,7 +6,6 @@ const IndexPage: NextPage = () => {
   return (
     <IndexLayout>
       <div>
-        <h1>Welcome to my website!</h1>
         {/* Add your page content here */}
       </div>
     </IndexLayout>
