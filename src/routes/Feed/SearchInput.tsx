@@ -49,6 +49,7 @@ const StyledWrapper = styled.div`
   .input-wrapper {
     flex: 1;
     width: 100%;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   }
 
   input[type="text"] {

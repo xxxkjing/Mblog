@@ -43,6 +43,7 @@ const StyledWrapper = styled.div`
     }
     @media (min-width: 1024px) {
       padding: 1rem;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
     }
     .top {
       position: relative;

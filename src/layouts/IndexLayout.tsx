@@ -23,16 +23,16 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
         <Header>
           <ImageContainer>
             <Image src="/images/handwave.png" alt="Tejjas Kaul" width={200} height={200} />
-            <SocialLinks>
+            <AboutMe>
+              <p>Hey, I'm <strong>Tejjas Kaul</strong>! I'm a highschooler who is keen on exploring neuroscience and the technology at play. Check out my socials to see what I'm up to!</p>
+            </AboutMe>
+          </ImageContainer>
+          <SocialLinks>
               <a href="https://docs.google.com/document/d/1SVg5OicX0dVmVkmRItPTlU5I_I7bLPGrKWgzEr2HdlA/edit?usp=sharing" target="_blank" rel="noopener noreferrer"><FiFile /></a>
               <a href="https://www.linkedin.com/in/tejjas-kaul-36091a22b/" target="_blank" rel="noopener noreferrer"><FaLinkedin /></a>
               <a href="https://github.com/tkpepper15" target="_blank" rel="noopener noreferrer"><FaGithub /></a>
               <a href="https://www.instagram.com/tejjaskphoto/" target="_blank" rel="noopener noreferrer"><FaInstagram /></a>
             </SocialLinks>
-            <AboutMe>
-              <p>Hey, I'm Tejjas Kaul! I'm a highschooler who is keen on exploring neuroscience, ethics, and the technology at play. Check out my socials to see what I'm up to!</p>
-            </AboutMe>
-          </ImageContainer>
         </Header>
       )}
       <Main>{children}</Main>
@@ -59,8 +59,8 @@ const ImageContainer = styled.div`
 
 const SocialLinks = styled.div`
   position: absolute;
-  bottom: -20px;
   left: 50%;
+  top: 275px;
   transform: translateX(-50%);
   display: flex;
   gap: 20px;
@@ -71,24 +71,38 @@ const SocialLinks = styled.div`
 `;
 
 const AboutMe = styled.div`
-  position: absolute;
-  top: 240px; /* Adjust this value as needed */
-  left: 50%;
-  width: 400px;
-  transform: translateX(-50%);
+  margin-top: 10px; /* Added margin to create space between SocialLinks and AboutMe */
   display: flex;
-  background-color: ${({ theme }) => theme.colors.gray1};
-  padding: 12px;
-  border-radius: 10px;
+  padding: 0.25rem;
+  flex-direction: column;
+  border-radius: 1rem;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: ${({ theme }) =>
+    theme.scheme === "light" ? "white" : theme.colors.gray1};
 
-  @media (max-width: 600px) {
-    width: calc(100% - 1px);
-    max-width: 500px;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    transform: none;
+  a {
+    display: flex;
+    padding: 0.75rem;
+    gap: 0.75rem;
+    align-items: center;
+    border-radius: 1rem;
+    color: ${({ theme }) => theme.colors.gray11};
+    cursor: pointer;
+
+    :hover {
+      color: ${({ theme }) => theme.colors.gray12};
+      background-color: ${({ theme }) => theme.colors.gray5};
+    }
+
+    .icon {
+      font-size: 1.5rem;
+      line-height: 2rem;
+    }
+
+    .name {
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+    }
   }
 `;
 
