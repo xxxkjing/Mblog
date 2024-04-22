@@ -1,4 +1,3 @@
-// src/layouts/indexLayout.tsx
 import React, { ReactNode, useEffect } from "react";
 import { useRouter } from "next/router";
 import styled from "@emotion/styled";
@@ -23,13 +22,16 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
       {isIndexPage && (
         <Header>
           <ImageContainer>
-            <Image src="/images/handwave.png" alt="Tejjas Kaul" width={100} height={100} />
+            <Image src="/images/handwave.png" alt="Tejjas Kaul" width={200} height={200} />
             <SocialLinks>
               <a href="https://docs.google.com/document/d/1SVg5OicX0dVmVkmRItPTlU5I_I7bLPGrKWgzEr2HdlA/edit?usp=sharing" target="_blank" rel="noopener noreferrer"><FiFile /></a>
               <a href="https://www.linkedin.com/in/tejjas-kaul-36091a22b/" target="_blank" rel="noopener noreferrer"><FaLinkedin /></a>
               <a href="https://github.com/tkpepper15" target="_blank" rel="noopener noreferrer"><FaGithub /></a>
               <a href="https://www.instagram.com/tejjaskphoto/" target="_blank" rel="noopener noreferrer"><FaInstagram /></a>
             </SocialLinks>
+            <AboutMe>
+              <p>Hey, I'm Tejjas Kaul! I'm a highschooler who is keen on exploring neuroscience, ethics, and the technology at play. Check out my socials to see what I'm up to!</p>
+            </AboutMe>
           </ImageContainer>
         </Header>
       )}
@@ -61,10 +63,23 @@ const SocialLinks = styled.div`
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 10px;
+  gap: 15px;
   background-color: ${({ theme }) => theme.colors.gray1};
-  padding: 5px;
-  border-radius: 10%;
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+`;
+
+const AboutMe = styled.div`
+  position: absolute;
+  top: 240px; /* Adjust this value as needed */
+  left: 50%;
+  width: 400px;
+  transform: translateX(-50%);
+  display: flex;
+  background-color: ${({ theme }) => theme.colors.gray1};
+  padding: 12px;
+  border-radius: 10px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 `;
 
