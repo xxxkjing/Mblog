@@ -63,7 +63,7 @@ const SocialLinks = styled.div`
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 15px;
+  gap: 20px;
   background-color: ${({ theme }) => theme.colors.gray1};
   padding: 12px;
   border-radius: 10px;
@@ -81,6 +81,15 @@ const AboutMe = styled.div`
   padding: 12px;
   border-radius: 10px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 400px) {
+    width: calc(100% - 1px);
+    max-width: 400px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    transform: none;
+  }
 `;
 
 const Main = styled.main`
