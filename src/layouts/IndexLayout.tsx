@@ -82,9 +82,9 @@ const AboutMe = styled.div`
   border-radius: 10px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 
-  @media (max-width: 500px) {
+  @media (max-width: 600px) {
     width: calc(100% - 1px);
-    max-width: 400px;
+    max-width: 500px;
     left: 0;
     right: 0;
     margin: 0 auto;
