@@ -24,7 +24,7 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
           <ImageContainer>
             <Image src="/images/handwave.png" alt="Tejjas Kaul" width={200} height={200} />
             <AboutMe>
-              <p>Hey, I'm <strong>Tejjas Kaul</strong>! I'm a highschooler who is keen on exploring neuroscience and the technology at play. Check out my socials to see what I'm up to!</p>
+            <p>Hi, I'm <strong>Tejjas Kaul</strong>! I'm a high schooler who is keen on exploring neurotech and the policies at play. Check out the <LinkStyle href="/blog">blog</LinkStyle> and the links below to stay updated:</p>
             </AboutMe>
             <SocialLinks>
               <a href="https://docs.google.com/document/d/1SVg5OicX0dVmVkmRItPTlU5I_I7bLPGrKWgzEr2HdlA/edit?usp=sharing" target="_blank" rel="noopener noreferrer"><FiFile /></a>
@@ -70,6 +70,10 @@ const SocialLinks = styled.div`
   padding: 12px;
   border-radius: 10px;
   box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
+`;
+
+const LinkStyle = styled.a`
+  color: gray;
 `;
 
 const AboutMe = styled.div`
