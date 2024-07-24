@@ -3,11 +3,10 @@ import { useRouter } from "next/router";
 import styled from "@emotion/styled";
 import Image from "next/image";
 import { FiFile, FiLink } from "react-icons/fi";
-import { FaLinkedin, FaGithub, FaInstagram } from "react-icons/fa";
+import { FaLinkedin, FaGithub, FaInstagram, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 type LayoutProps = {
   children: ReactNode;
@@ -23,19 +22,19 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
 
   const settings = {
     infinite: true,
-    autoplay: true,
-    autoplaySpeed: 4000, // Adjust the autoplay speed
     speed: 500,
-    fade: true, // Enable fade effect
     slidesToShow: 3,
     slidesToScroll: 1,
     nextArrow: <FaChevronRight />,
     prevArrow: <FaChevronLeft />,
+    centerMode: false, // Default to false
     responsive: [
       {
         breakpoint: 1024,
         settings: {
           slidesToShow: 2,
+          centerMode: true, // Enable center mode on tablets and smaller screens
+          arrows: false, // Hide arrows on mobile
           slidesToScroll: 1,
         }
       },
@@ -44,6 +43,9 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
+          centerMode: true, // Enable center mode on mobile screens
+          arrows: false, // Hide arrows on mobile
+          centerPadding: '25px', // Adjust padding for mobile screens
         }
       }
     ]
@@ -59,7 +61,7 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
               alt="Tejjas Kaul"
               width={200}
               height={200}
-            ></Image>
+            />
             <AboutMe>
               <p>Hi, I'm <strong>Tejjas Kaul</strong>! I'm a high schooler who is keen on exploring neurotech, public health, and design. Check out the <LinkStyle href="/blog">blog</LinkStyle> and the links below to stay updated:</p>
             </AboutMe>
@@ -73,11 +75,8 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
         </Header>
       )}
       <Main>
-        <MainContainer>
-          <Heading>
-            <br></br>
-            Relevant Projects
-          </Heading>
+        <Container>
+          <Heading>Relevant Projects</Heading>
           <Carousel {...settings}>
             <MyProjects>
               <RoundedImage
@@ -99,7 +98,7 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
               <StyledLink href="https://yci-website-enterprise.vercel.app/" target="_blank" rel="noopener noreferrer"><FiLink />Youth Climate Initiative Website</StyledLink>
             </MyProjects>
           </Carousel>
-        </MainContainer>
+        </Container>
       </Main>
     </Container>
   );
@@ -109,52 +108,47 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  padding: 0; // Remove padding to ensure edge-to-edge design
+  margin: 0; // Remove margin
 `;
 
 const Header = styled.header`
-  max-width: 800px;
+  max-width: 100%; // Ensure full width
   margin: 0 auto;
-  padding: 3rem;
+  padding: .5rem; // Adjust padding for better mobile view
   text-align: center;
 `;
 
 const ImageContainer = styled.div`
-  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
 const RoundedImage = styled(Image)`
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   overflow: hidden;
   width: 100%;
   height: auto;
 `;
 
-const MainContainer = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
 const SocialLinks = styled.div`
-  position: absolute;
-  bottom: -50px;
   display: flex;
-  gap: 20px;
+  gap: 15px;
   background-color: ${({ theme }) =>
     theme.scheme === "light" ? "white" : theme.colors.gray1};
-  padding: 12px;
+  padding: 10px;
   border-radius: 10px;
   box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
+  position: static; // Update position for better mobile positioning
+  margin-top: 10px;
 `;
 
 const MyProjects = styled.div`
   display: flex;
   padding: 1rem;
-  width: 25rem;
+  width: 90%;
+  max-width: 350px; // Ensure the width is not too large on smaller screens
   flex-direction: column;
   border-radius: 10px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
@@ -172,7 +166,7 @@ const MyProjects = styled.div`
 const StyledLink = styled.a`
   font-weight: bold;
   text-decoration: underline;
-  font-size: 1.75rem;
+  font-size: 1.5rem; // Reduce font size on smaller screens
   color: inherit;
 `;
 
@@ -181,14 +175,16 @@ const LinkStyle = styled.a`
 `;
 
 const Heading = styled.h2`
-  font-size: 1.75rem;
-  line-height: 2.5rem;
+  font-size: 1.5rem; // Reduce font size on smaller screens
+  line-height: 2.25rem; // Adjust line height
   font-weight: 700;
+  margin: 1rem 0; // Add margin for spacing
+  text-align: center;
 `;
 
 const AboutMe = styled.div`
   display: flex;
-  padding: 0.25rem;
+  padding: .5rem; // Increase padding for better touch targets
   flex-direction: column;
   border-radius: 10px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
@@ -201,7 +197,7 @@ const Main = styled.main`
 `;
 
 const Carousel = styled(Slider)`
-  width: 80%;
+  width: 100%; // Ensure full width on smaller screens
 
   .slick-slide {
     display: flex;
@@ -211,6 +207,7 @@ const Carousel = styled(Slider)`
 
   .slick-prev, .slick-next {
     color: ${({ theme }) => theme.scheme === "light" ? "black" : "white"};
+    margin: .5rem;
   }
 
   .slick-prev:before, .slick-next:before {
@@ -219,6 +216,13 @@ const Carousel = styled(Slider)`
 
   .slick-dots li button:before {
     color: ${({ theme }) => theme.scheme === "light" ? "black" : "white"};
+  }
+
+  // Hide arrows on mobile
+  @media (max-width: 600px) {
+    .slick-prev, .slick-next {
+      display: none;
+    }
   }
 `;
 
