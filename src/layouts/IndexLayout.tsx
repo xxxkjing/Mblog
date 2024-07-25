@@ -3,10 +3,11 @@ import { useRouter } from "next/router";
 import styled from "@emotion/styled";
 import Image from "next/image";
 import { FiFile } from "react-icons/fi";
-import { FaLinkedin, FaGithub, FaInstagram, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { FaLinkedin, FaGithub, FaInstagram, FaChevronLeft, FaChevronRight, FaArrowDown } from "react-icons/fa";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { keyframes } from '@emotion/react';
 
 type LayoutProps = {
   children: ReactNode;
@@ -77,7 +78,7 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
       )}
       <Main>
         <Container>
-          <Heading>Relevant Projects</Heading>
+          <Heading>Relevant Work <BouncingArrow /></Heading>
           {isClient && (
             <Carousel {...settings}>
               <MyProjects>
@@ -106,6 +107,16 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
               <MyProjects>
                 <ProjectContent  href="https://yci-website-enterprise.vercel.app/" target="_blank" rel="noopener noreferrer">
                 <StyledLink>Youth Climate Initiative Website</StyledLink>
+                </ProjectContent>
+              </MyProjects>
+              <MyProjects>
+                <ProjectContent  href="https://www.tejjaskaul.com/moodflip" target="_blank" rel="noopener noreferrer">
+                <StyledLink>MoodFlip: Gauging Emotions from Selfies</StyledLink>
+                </ProjectContent>
+              </MyProjects>
+              <MyProjects>
+                <ProjectContent  href="https://www.tejjaskaul.com/ar-glasses" target="_blank" rel="noopener noreferrer">
+                <StyledLink>Smart Vision Glasses for the Elderly</StyledLink>
                 </ProjectContent>
               </MyProjects>
             </Carousel>
@@ -192,6 +203,7 @@ const StyledLink = styled.a`
   font-size: 1.5rem; // Reduce font size on smaller screens
   color: inherit;
   text-align: center; // Center the text
+  margin-bottom: 1rem;
 `;
 
 
@@ -253,6 +265,22 @@ const Carousel = styled(Slider)`
 
 const DateText = styled.span`
   color: gray;
+`;
+
+const bounce = keyframes`
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-20px);
+  }
+  60% {
+    transform: translateY(-10px);
+  }
+`;
+
+const BouncingArrow = styled(FaArrowDown)`
+  animation: ${bounce} 2s infinite;
 `;
 
 export default IndexLayout;
