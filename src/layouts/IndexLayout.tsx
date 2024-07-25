@@ -98,7 +98,7 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
                 <ProjectContent href="https://drive.google.com/file/d/10IFe0ovxQgVi8ZPEvog8hrw5WO1sEgcC/view?usp=sharing" target="_blank" rel="noopener noreferrer">
                 <StyledLink>Neuroethics Scientific Essay (NCSSM)</StyledLink>
                 <RoundedImage
-                    src="/images/neuroethicsessay.svg"
+                    src="/images/neuroethicsessay.png"
                     alt="Neuroethics Essay"
                     width={200}
                     height={200}
@@ -111,7 +111,7 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
                 <ProjectContent  href="https://yci-website-enterprise.vercel.app/" target="_blank" rel="noopener noreferrer">
                 <StyledLink>Youth Climate Initiative Website</StyledLink>
                 <RoundedImage
-                    src="/images/yci.svg"
+                    src="/images/yci.png"
                     alt="YCI"
                     width={200}
                     height={200}
@@ -124,7 +124,7 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
                 <ProjectContent  href="https://www.tejjaskaul.com/moodflip" target="_blank" rel="noopener noreferrer">
                 <StyledLink>MoodFlip: Gauging Emotions from Selfies</StyledLink>
                 <RoundedImage
-                    src="/images/moodflip.svg"
+                    src="/images/moodflip.png"
                     alt="Moodflip"
                     width={200}
                     height={200}
@@ -137,7 +137,7 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
                 <ProjectContent  href="https://tkpepper15.github.io/neuro-midterm/" target="_blank" rel="noopener noreferrer">
                 <StyledLink>Neuro-Ophthalmology Guide (NCSSM)</StyledLink>
                 <RoundedImage
-                    src="/images/neuro-ophthalmology.svg"
+                    src="/images/neuro-ophthalmology.png"
                     alt="Neuro-Ophthalmology Guide"
                     width={200}
                     height={200}
@@ -150,7 +150,7 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
                 <ProjectContent  href="https://www.tejjaskaul.com/ar-glasses" target="_blank" rel="noopener noreferrer">
                 <StyledLink>Smart Vision Glasses for the Elderly</StyledLink>
                 <RoundedImage
-                    src="/images/smartglasses.svg"
+                    src="/images/smartglasses.png"
                     alt="Smart Glasses"
                     width={200}
                     height={200}
