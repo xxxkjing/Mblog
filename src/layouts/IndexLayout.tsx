@@ -90,33 +90,73 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
                     width={500}
                     height={300}
                   />
-                  <p>Case Study Analysis, User Research, Video Editing, WebDev</p>
-                  <DateText>June 2024</DateText>
+                  <p>Case Study Analysis, UI/UX, Video Editing, Web Design</p>
+                  <DateText>May - July 2024</DateText>
                 </ProjectContent>
               </MyProjects>
               <MyProjects>
                 <ProjectContent href="https://drive.google.com/file/d/10IFe0ovxQgVi8ZPEvog8hrw5WO1sEgcC/view?usp=sharing" target="_blank" rel="noopener noreferrer">
                 <StyledLink>Neuroethics Scientific Essay (NCSSM)</StyledLink>
-                </ProjectContent>
-              </MyProjects>
-              <MyProjects>
-                <ProjectContent  href="https://tkpepper15.github.io/neuro-midterm/" target="_blank" rel="noopener noreferrer">
-                <StyledLink>Neuro-Ophthalmology Guide (NCSSM)</StyledLink>
+                <RoundedImage
+                    src="/images/neuroethicsessay.svg"
+                    alt="Neuroethics Essay"
+                    width={200}
+                    height={200}
+                  />
+                  <p>Literature Review, Scientific Writing, Analytical Research</p>
+                  <DateText>April 2024</DateText>
                 </ProjectContent>
               </MyProjects>
               <MyProjects>
                 <ProjectContent  href="https://yci-website-enterprise.vercel.app/" target="_blank" rel="noopener noreferrer">
                 <StyledLink>Youth Climate Initiative Website</StyledLink>
+                <RoundedImage
+                    src="/images/yci.svg"
+                    alt="YCI"
+                    width={200}
+                    height={200}
+                  />
+                  <p>Web Design, UI/UX, Fundraising</p>
+                  <DateText>May 2024 - Present</DateText>
                 </ProjectContent>
               </MyProjects>
               <MyProjects>
                 <ProjectContent  href="https://www.tejjaskaul.com/moodflip" target="_blank" rel="noopener noreferrer">
                 <StyledLink>MoodFlip: Gauging Emotions from Selfies</StyledLink>
+                <RoundedImage
+                    src="/images/moodflip.svg"
+                    alt="Moodflip"
+                    width={200}
+                    height={200}
+                  />
+                  <p>UI/UX, AI/ML, Mobile & Web Design</p>
+                  <DateText>Sep 2023</DateText>
+                </ProjectContent>
+              </MyProjects>
+              <MyProjects>
+                <ProjectContent  href="https://tkpepper15.github.io/neuro-midterm/" target="_blank" rel="noopener noreferrer">
+                <StyledLink>Neuro-Ophthalmology Guide (NCSSM)</StyledLink>
+                <RoundedImage
+                    src="/images/neuro-ophthalmology.svg"
+                    alt="Neuro-Ophthalmology Guide"
+                    width={200}
+                    height={200}
+                  />
+                  <p>Scientific Writing, Analytical Research, Web Design</p>
+                  <DateText>March 2024</DateText>
                 </ProjectContent>
               </MyProjects>
               <MyProjects>
                 <ProjectContent  href="https://www.tejjaskaul.com/ar-glasses" target="_blank" rel="noopener noreferrer">
                 <StyledLink>Smart Vision Glasses for the Elderly</StyledLink>
+                <RoundedImage
+                    src="/images/smartglasses.svg"
+                    alt="Smart Glasses"
+                    width={200}
+                    height={200}
+                  />
+                  <p>AI/ML, UI/UX, Engaging with Professionals, Collaborative Discovery</p>
+                  <DateText>December 2023 - Present</DateText>
                 </ProjectContent>
               </MyProjects>
             </Carousel>
