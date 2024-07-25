@@ -65,7 +65,7 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
               height={200}
             />
             <AboutMe>
-              <p>Hi, I'm <strong>Tejjas Kaul</strong>! I'm a high schooler who is keen on exploring neurotech, public health, and design. Check out the <LinkStyle href="/blog">blog</LinkStyle> and the links below to stay updated:</p>
+              <p>Hi, I'm <strong>Tejjas Kaul</strong>, a high school student keen on exploring neurotech, public health, and design. Check out my <LinkStyle href="/blog">blog</LinkStyle> and connect with me!</p>
             </AboutMe>
             <SocialLinks>
               <a href="https://docs.google.com/document/d/1SVg5OicX0dVmVkmRItPTlU5I_I7bLPGrKWgzEr2HdlA/edit?usp=sharing" target="_blank" rel="noopener noreferrer"><FiFile /></a>
@@ -238,7 +238,7 @@ const ProjectContent = styled.a`
 `;
 
 const StyledLink = styled.a`
-  font-weight: bold;
+  font-weight: 700;
   text-decoration: underline;
   font-size: 1.5rem; // Reduce font size on smaller screens
   color: inherit;
@@ -254,7 +254,7 @@ const LinkStyle = styled.a`
 const Heading = styled.h2`
   font-size: 1.5rem; // Reduce font size on smaller screens
   line-height: 2.25rem; // Adjust line height
-  font-weight: 700;
+  font-weight: 400;
   margin: 1rem 0; // Add margin for spacing
   text-align: center;
 `;
