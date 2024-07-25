@@ -34,7 +34,7 @@ const StyledWrapper = styled.nav`
     flex-direction: row;
     li {
       display: block;
-      margin-left: .5rem;
+      margin-right: 1rem;
       color: ${({ theme }) => theme.colors.gray11};
     }
   }
