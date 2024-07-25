@@ -116,7 +116,7 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
                     width={200}
                     height={200}
                   />
-                  <p>Web Design, UI/UX, Fundraising</p>
+                  <p>Web Design, Climate Change, UI/UX, Fundraising</p>
                   <DateText>May 2024 - Present</DateText>
                 </ProjectContent>
               </MyProjects>
@@ -129,8 +129,8 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
                     width={200}
                     height={200}
                   />
-                  <p>UI/UX, AI/ML, Mobile & Web Design</p>
-                  <DateText>Sep 2023</DateText>
+                  <p>UI/UX, AI/ML, Mobile App Development, Web Design</p>
+                  <DateText>September 2023</DateText>
                 </ProjectContent>
               </MyProjects>
               <MyProjects>
@@ -142,7 +142,7 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
                     width={200}
                     height={200}
                   />
-                  <p>Scientific Writing, Analytical Research, Web Design</p>
+                  <p>Scientific Writing, Analytical Research, Web Design, Neuroanatomy</p>
                   <DateText>March 2024</DateText>
                 </ProjectContent>
               </MyProjects>
