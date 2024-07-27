@@ -19,7 +19,7 @@ const Footer: React.FC<Props> = ({ className }) => {
         rel="noopener noreferrer"
         className="underline-link" // Added class for styling
       >
-        Forked from morethan-log
+        forked from morethanlog
       </a>
     </StyledWrapper>
   );

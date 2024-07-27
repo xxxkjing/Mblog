@@ -163,6 +163,7 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
           )}
         </Container>
       </Main>
+      <FooterContainer>© Tejjas Kaul</FooterContainer>
     </Container>
   );
 };
@@ -316,6 +317,21 @@ const bounce = keyframes`
 
 const BouncingArrow = styled(FaArrowDown)`
   animation: ${bounce} 2s infinite;
+`;
+
+const FooterContainer = styled.footer`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  color: #333;
+  font-size: 0.875rem;
+
+  a {
+    margin: 0 1rem;
+    color: #333;
+    text-decoration: none;
+  }
 `;
 
 export default IndexLayout;
