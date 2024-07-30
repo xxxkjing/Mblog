@@ -162,8 +162,8 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
             </Carousel>
           )}
         </Container>
-      </Main>
       <FooterContainer>© Tejjas Kaul</FooterContainer>
+      </Main>
     </Container>
   );
 };
@@ -171,7 +171,6 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
   padding: 0; // Remove padding to ensure edge-to-edge design
   margin: 0; // Remove margin
 `;
