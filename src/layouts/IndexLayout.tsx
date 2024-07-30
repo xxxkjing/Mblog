@@ -325,12 +325,14 @@ const FooterContainer = styled.footer`
   align-items: center;
   padding: 1rem;
   color: #333;
+  margin-bottom: 1rem;
   font-size: 0.875rem;
 
   a {
-    margin: 0 1rem;
-    color: #333;
-    text-decoration: none;
+    margin-top: 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: ${({ theme }) => theme.colors.gray10};
   }
 `;
 
