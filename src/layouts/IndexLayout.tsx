@@ -65,7 +65,7 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
               height={200}
             />
             <AboutMe>
-              <p>Hi, I'm <strong>Tejjas Kaul</strong>, a high schooler keen on exploring neurotech, public health, and design. Check out my <LinkStyle href="/blog">blog</LinkStyle> and connect with me!</p>
+              <p>Hi, I'm <strong>Tejjas Kaul</strong>, a high schooler keen on exploring how philosophy interfaces with neurotech, public health, and design. Check out my <LinkStyle href="/blog">blog</LinkStyle> and connect with me!</p>
             </AboutMe>
             <SocialLinks>
               <a href="https://docs.google.com/document/d/1SVg5OicX0dVmVkmRItPTlU5I_I7bLPGrKWgzEr2HdlA/edit?usp=sharing" target="_blank" rel="noopener noreferrer"><FiFile /></a>
