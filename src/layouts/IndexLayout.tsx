@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import styled from "@emotion/styled";
 import Image from "next/image";
 import { FiFile } from "react-icons/fi";
-import { FaLinkedin, FaGithub, FaInstagram, FaChevronLeft, FaChevronRight, FaArrowDown } from "react-icons/fa";
+import { FaLinkedin, FaGithub, FaInstagram, FaChevronLeft, FaChevronRight, FaArrowDown, FaRocket, FaBrain, FaPalette, FaMicrochip, FaLaptop } from "react-icons/fa";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -164,7 +164,12 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
         </Container>
         <Header>
         <AboutMe>
-              <p>These projects highlight my passion for exploring and writing about the neurotech space—while hinting at my love for design! Since I'm just getting started, I aim to deepen my understanding of the field through hands-on research and exploration.</p>
+              <p>These projects allow me to explore neurotech—while hinting at my love for design and writing. I hope to continue doing hands-on research as I learn new skills.
+              <br></br>
+              <br></br>
+              <FaBrain/> <FaPalette/> <FaMicrochip/> <FaLaptop/>
+              </p>
+
             </AboutMe>
         </Header>
       <FooterContainer>© Tejjas Kaul</FooterContainer>
@@ -301,11 +306,6 @@ const Carousel = styled(Slider)`
     .slick-prev, .slick-next {
       display: none;
     }
-
-    .slick-slide {
-      max-height: 500px;
-    }
-
   }
 `;
 
