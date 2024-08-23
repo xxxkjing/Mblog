@@ -163,16 +163,6 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
             </Carousel>
           )}
         </Container>
-        <Header>
-        <AboutMe>
-              <p>These projects allow me to explore neurotech—while hinting at my love for design and writing. I hope to continue doing hands-on research as I learn new skills.
-              <br></br>
-              <br></br>
-              <FaBrain/> <FaPalette/> <FaMicrochip/> <FaLaptop/>
-              </p>
-
-            </AboutMe>
-        </Header>
       <FooterContainer>© Tejjas Kaul</FooterContainer>
       </Main>
     </Container>
