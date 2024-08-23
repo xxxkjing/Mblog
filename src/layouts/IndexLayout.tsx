@@ -25,6 +25,7 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
   const settings = {
     infinite: true,
     speed: 500,
+    lazyLoad: "ondemand" as const,
     slidesToShow: 3,
     slidesToScroll: 1,
     nextArrow: <FaChevronRight />,
