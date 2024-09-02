@@ -109,6 +109,19 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
                 </ProjectContent>
               </MyProjects>
               <MyProjects>
+                <ProjectContent  href="https://braillebox-yvmw.vercel.app/" target="_blank" rel="noopener noreferrer">
+                <StyledLink>BrailleBox Website</StyledLink>
+                <RoundedImage
+                    src="/images/braillebox.png"
+                    alt="BrailleBox"
+                    width={200}
+                    height={150}
+                  />
+                  <p>Web Design, Visual Impairment, UI/UX, Accessibility</p>
+                  <DateText>Aug 2024 - Present</DateText>
+                </ProjectContent>
+              </MyProjects>
+              <MyProjects>
                 <ProjectContent  href="https://yci-website-enterprise.vercel.app/" target="_blank" rel="noopener noreferrer">
                 <StyledLink>Youth Climate Initiative Website</StyledLink>
                 <RoundedImage
