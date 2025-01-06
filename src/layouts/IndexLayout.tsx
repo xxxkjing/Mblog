@@ -110,10 +110,10 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
               </MyProjects>
               <MyProjects>
                 <ProjectContent  href="https://braillebox-yvmw.vercel.app/" target="_blank" rel="noopener noreferrer">
-                <StyledLink>BrailleBox Website</StyledLink>
+                <StyledLink>Brailliant Website</StyledLink>
                 <RoundedImage
                     src="/images/braillebox.png"
-                    alt="BrailleBox"
+                    alt="Brailliant"
                     width={200}
                     height={150}
                   />
