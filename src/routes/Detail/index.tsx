@@ -6,14 +6,21 @@ import { motion } from "framer-motion"
 import { NotionRenderer } from "react-notion-x"
 import "react-notion-x/src/styles.css"
 import { useTheme } from "@emotion/react"
+import { TPost } from "src/types"
 
 const Detail = () => {
   const router = useRouter()
   const { slug } = router.query
-  const { data: post } = useQuery(queryKey.post(slug as string))
+  const { data: post } = useQuery<TPost>(queryKey.post(slug as string))
   const theme = useTheme()
 
   if (!post) return null
+
+  const postDate = new Date(post.date?.start_date || post.createdTime).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  })
 
   return (
     <Container
@@ -22,13 +29,7 @@ const Detail = () => {
       transition={{ duration: 0.4 }}
     >
       <Header>
-        <PostDate>
-          {new Date(post.date?.start_date || post.createdTime).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          })}
-        </PostDate>
+        <PostDate>{postDate}</PostDate>
         <Title>{post.title}</Title>
         {post.categories && post.categories.length > 0 && (
           <Categories>

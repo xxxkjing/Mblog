@@ -1,5 +1,5 @@
 import { CONFIG } from "../../site.config"
-import { NextPageWithLayout } from "../types"
+import { NextPageWithLayout, TPost } from "../types"
 import { getPosts } from "../apis"
 import MetaConfig from "src/components/MetaConfig"
 import { queryClient } from "src/libs/react-query"
@@ -35,7 +35,7 @@ const BlogPage: NextPageWithLayout = () => {
   const [selectedTag, setSelectedTag] = useState<string>('');
   const [mounted, setMounted] = useState(false);
   
-  const { data: posts } = useQuery(queryKey.posts());
+  const { data: posts = [] } = useQuery<TPost[]>(queryKey.posts());
   
   useEffect(() => {
     setMounted(true);
@@ -43,8 +43,6 @@ const BlogPage: NextPageWithLayout = () => {
 
   // Get unique categories and tags from posts
   const { categories, tags } = useMemo(() => {
-    if (!posts) return { categories: ['All'], tags: {} };
-    
     const uniqueCategories = new Set(['All']);
     posts.forEach(post => {
       post.categories?.forEach(category => uniqueCategories.add(category));
