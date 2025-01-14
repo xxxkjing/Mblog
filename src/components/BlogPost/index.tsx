@@ -44,13 +44,22 @@ const BlogPost: React.FC<BlogPostProps> = ({ post }) => {
             </PostDate>
             <Title>{post.title}</Title>
             <Description>{post.description}</Description>
-            {post.categories && post.categories.length > 0 && (
-              <Categories>
-                {post.categories.map(category => (
-                  <Category key={category}>{category}</Category>
-                ))}
-              </Categories>
-            )}
+            <MetadataContainer>
+              {post.categories && post.categories.length > 0 && (
+                <Categories>
+                  {post.categories.map(category => (
+                    <Category key={category}>{category}</Category>
+                  ))}
+                </Categories>
+              )}
+              {post.tags && post.tags.length > 0 && (
+                <Tags>
+                  {post.tags.map(tag => (
+                    <Tag key={tag}>{tag}</Tag>
+                  ))}
+                </Tags>
+              )}
+            </MetadataContainer>
           </Content>
         </PostLink>
       </Link>
@@ -149,12 +158,18 @@ const Description = styled.p`
   }
 `;
 
+const MetadataContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding-top: 1rem;
+`;
+
 const Categories = styled.div`
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
-  margin-top: auto;
-  padding-top: 1rem;
 
   @media (max-width: 768px) {
     gap: 0.375rem;
@@ -167,6 +182,30 @@ const Category = styled.span`
   border-radius: 9999px;
   background-color: ${({ theme }) => theme.colors.gray3};
   color: ${({ theme }) => theme.colors.gray11};
+  white-space: nowrap;
+
+  @media (max-width: 768px) {
+    font-size: 0.6875rem;
+    padding: 0.2rem 0.625rem;
+  }
+`;
+
+const Tags = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+
+  @media (max-width: 768px) {
+    gap: 0.375rem;
+  }
+`;
+
+const Tag = styled.span`
+  font-size: 0.75rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  background-color: ${({ theme }) => theme.colors.blue3};
+  color: ${({ theme }) => theme.colors.blue11};
   white-space: nowrap;
 
   @media (max-width: 768px) {

@@ -22,9 +22,10 @@ export interface TPost {
   date?: { start_date: string };
   createdTime: string;
   slug: string;
+  tags?: string[];
   categories?: string[];
   thumbnail?: string;
-  recordMap?: any; // You might want to type this more specifically
+  recordMap?: any;
 }
 
 export type PostDetail = TPost & {

@@ -9,6 +9,7 @@ type BlogLayoutProps = {
   onSearch?: (value: string) => void;
   selectedCategory?: string;
   onCategoryChange?: (category: string) => void;
+  categories?: string[];
 };
 
 interface SearchInputProps {
@@ -23,8 +24,9 @@ interface CategoryListProps {
 const BlogLayout: React.FC<BlogLayoutProps> = ({ 
   children, 
   onSearch,
-  selectedCategory = '',
-  onCategoryChange = () => {}
+  selectedCategory = 'All',
+  onCategoryChange = () => {},
+  categories
 }) => {
   return (
     <Container>
@@ -32,19 +34,14 @@ const BlogLayout: React.FC<BlogLayoutProps> = ({
         <HeaderContent>
           <Title>Thoughts & Notes</Title>
           <Description>
-            Exploring the intersections of technology, design, and neuroscience through writing
+            Exploring the intersections of technology, design, and neuroscience
           </Description>
         </HeaderContent>
         <FilterSection>
           <SearchContainer>
             <SearchInput onSearch={onSearch} />
           </SearchContainer>
-          <CategoryContainer>
-            <CategoryList 
-              selected={selectedCategory} 
-              onChange={onCategoryChange}
-            />
-          </CategoryContainer>
+
         </FilterSection>
       </Header>
       <Main>

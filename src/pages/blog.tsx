@@ -11,9 +11,11 @@ import BlogLayout from 'src/layouts/BlogLayout';
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { getAllTags } from "src/libs/utils/notion/getAllTags";
+import TagsSection from 'src/components/TagsSection';
 
 export const getStaticProps: GetStaticProps = async () => {
   const posts = filterPosts(await getPosts())
@@ -30,6 +32,7 @@ export const getStaticProps: GetStaticProps = async () => {
 const BlogPage: NextPageWithLayout = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedTag, setSelectedTag] = useState<string>('');
   const [mounted, setMounted] = useState(false);
   
   const { data: posts } = useQuery(queryKey.posts());
@@ -38,13 +41,49 @@ const BlogPage: NextPageWithLayout = () => {
     setMounted(true);
   }, []);
 
+  // Get unique categories and tags from posts
+  const { categories, tags } = useMemo(() => {
+    if (!posts) return { categories: ['All'], tags: {} };
+    
+    const uniqueCategories = new Set(['All']);
+    posts.forEach(post => {
+      post.categories?.forEach(category => uniqueCategories.add(category));
+    });
+
+    const tagCounts = getAllTags(posts);
+    
+    return { 
+      categories: Array.from(uniqueCategories),
+      tags: tagCounts
+    };
+  }, [posts]);
+
   const filteredPosts = posts?.filter(post => {
     if (!post) return false;
-    const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    // Search matching
+    const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      post.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      post.tags?.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+    
+    // Category matching
     const matchesCategory = selectedCategory === 'All' || 
       (post.categories && post.categories.includes(selectedCategory));
-    return matchesSearch && matchesCategory;
+    
+    // Tag matching
+    const matchesTag = !selectedTag || 
+      (post.tags && post.tags.includes(selectedTag));
+    
+    return matchesSearch && matchesCategory && matchesTag;
   });
+
+  const handleTagClick = (tag: string) => {
+    if (selectedTag === tag || tag === '') {
+      setSelectedTag('');
+    } else {
+      setSelectedTag(tag);
+    }
+  };
 
   const meta = {
     title: CONFIG.blog.title,
@@ -62,7 +101,13 @@ const BlogPage: NextPageWithLayout = () => {
         onSearch={setSearchQuery}
         selectedCategory={selectedCategory}
         onCategoryChange={setSelectedCategory}
+        categories={categories}
       >
+        <TagsSection 
+          tags={tags}
+          selectedTag={selectedTag}
+          onTagSelect={handleTagClick}
+        />
         {!filteredPosts || filteredPosts.length === 0 ? (
           <EmptyState>
             <EmptyText>No posts found</EmptyText>
@@ -80,22 +125,20 @@ const BlogPage: NextPageWithLayout = () => {
                 transition={{ delay: index * 0.05 }}
               >
                 <Link href={`/${post.slug}`} passHref>
-                  <>
+                  <CardContent>
                     {post.thumbnail && (
-                      <ImageContainer>
+                      <ImageWrapper>
                         <Image
                           src={post.thumbnail}
                           alt={post.title}
                           fill
-                          sizes="(max-width: 768px) 100vw, 350px"
-                          style={{ 
-                            objectFit: 'cover',
-                          }}
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          style={{ objectFit: 'cover' }}
                           priority={index < 2}
                         />
-                      </ImageContainer>
+                      </ImageWrapper>
                     )}
-                    <CardContent>
+                    <CardBody>
                       <PostDate>
                         {new Date(post.date?.start_date || post.createdTime).toLocaleDateString('en-US', {
                           year: 'numeric',
@@ -105,15 +148,34 @@ const BlogPage: NextPageWithLayout = () => {
                       </PostDate>
                       <PostTitle>{post.title}</PostTitle>
                       <PostDescription>{post.description}</PostDescription>
-                      {post.categories && post.categories.length > 0 && (
-                        <TagContainer>
-                          {post.categories.map(category => (
-                            <Tag key={category}>{category}</Tag>
-                          ))}
-                        </TagContainer>
-                      )}
-                    </CardContent>
-                  </>
+                      <MetadataContainer>
+                        {post.categories && post.categories.length > 0 && (
+                          <Categories>
+                            {post.categories.map(category => (
+                              <Category key={category}>{category}</Category>
+                            ))}
+                          </Categories>
+                        )}
+                        {post.tags && post.tags.length > 0 && (
+                          <Tags>
+                            {post.tags.map(tag => (
+                              <Tag 
+                                key={tag}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  handleTagClick(tag);
+                                }}
+                                isActive={selectedTag === tag}
+                              >
+                                {tag}
+                              </Tag>
+                            ))}
+                          </Tags>
+                        )}
+                      </MetadataContainer>
+                    </CardBody>
+                  </CardContent>
                 </Link>
               </BlogCard>
             ))}
@@ -124,45 +186,47 @@ const BlogPage: NextPageWithLayout = () => {
   );
 };
 
+const FilterBar = styled.div`
+  margin-bottom: 1.5rem;
+  min-height: 40px;
+`;
+
 const BlogGrid = styled.div`
   display: grid;
-  gap: 1.5rem;
+  gap: 2rem;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
-    gap: 1rem;
-    padding: 0 0.5rem;
+    gap: 1.5rem;
   }
 `;
 
 const BlogCard = styled(motion.article)`
   background-color: ${({ theme }) => theme.colors.gray2};
   border: 1px solid ${({ theme }) => theme.colors.gray4};
-  border-radius: 12px;
+  border-radius: 16px;
   overflow: hidden;
   transition: all 0.2s ease-in-out;
-  display: flex;
-  flex-direction: column;
 
   @media (max-width: 768px) {
-    border-radius: 8px;
+    border-radius: 12px;
   }
 
   &:hover {
-    transform: translateY(-2px);
+    transform: translateY(-4px);
     border-color: ${({ theme }) => theme.colors.gray6};
-    background-color: ${({ theme }) => theme.colors.gray3};
-  }
-
-  @media (max-width: 768px) {
-    &:hover {
-      transform: none;
-    }
+    box-shadow: 0 4px 12px ${({ theme }) => theme.colors.gray4};
   }
 `;
 
-const ImageContainer = styled.div`
+const CardContent = styled.a`
+  display: block;
+  text-decoration: none;
+  color: inherit;
+`;
+
+const ImageWrapper = styled.div`
   position: relative;
   width: 100%;
   height: 200px;
@@ -173,16 +237,11 @@ const ImageContainer = styled.div`
   }
 `;
 
-const CardContent = styled.a`
-  display: flex;
-  flex-direction: column;
+const CardBody = styled.div`
   padding: 1.5rem;
-  text-decoration: none;
-  color: inherit;
-  height: 100%;
 
   @media (max-width: 768px) {
-    padding: 1rem;
+    padding: 1.25rem;
   }
 `;
 
@@ -191,11 +250,6 @@ const PostDate = styled.time`
   color: ${({ theme }) => theme.colors.gray10};
   display: block;
   margin-bottom: 0.75rem;
-
-  @media (max-width: 768px) {
-    font-size: 0.8125rem;
-    margin-bottom: 0.5rem;
-  }
 `;
 
 const PostTitle = styled.h2`
@@ -204,11 +258,6 @@ const PostTitle = styled.h2`
   color: ${({ theme }) => theme.colors.gray12};
   margin: 0 0 0.75rem 0;
   line-height: 1.4;
-
-  @media (max-width: 768px) {
-    font-size: 1.125rem;
-    margin-bottom: 0.5rem;
-  }
 `;
 
 const PostDescription = styled.p`
@@ -220,39 +269,72 @@ const PostDescription = styled.p`
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-
-  @media (max-width: 768px) {
-    font-size: 0.875rem;
-    margin-bottom: 1rem;
-    line-height: 1.5;
-  }
 `;
 
-const TagContainer = styled.div`
+const MetadataContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+`;
+
+const Categories = styled.div`
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
-  margin-top: auto;
-  padding-top: 1rem;
-
-  @media (max-width: 768px) {
-    gap: 0.375rem;
-  }
 `;
 
-const Tag = styled.span`
+const Category = styled.span`
   font-size: 0.75rem;
   padding: 0.25rem 0.75rem;
   border-radius: 9999px;
   background-color: ${({ theme }) => theme.colors.gray3};
   color: ${({ theme }) => theme.colors.gray11};
+  white-space: nowrap;
+`;
+
+const Tags = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+`;
+
+const Tag = styled.span<{ isActive?: boolean }>`
+  font-size: 0.75rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  background-color: ${({ theme, isActive }) => 
+    isActive ? theme.colors.blue5 : theme.colors.blue3};
+  color: ${({ theme }) => theme.colors.blue11};
+  cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
 
-  @media (max-width: 768px) {
-    font-size: 0.6875rem;
-    padding: 0.2rem 0.625rem;
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.blue4};
   }
+`;
+
+const ActiveTag = styled.button`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 9999px;
+  background-color: ${({ theme }) => theme.colors.blue5};
+  color: ${({ theme }) => theme.colors.blue11};
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.blue6};
+  }
+`;
+
+const CloseIcon = styled.span`
+  font-size: 1.25rem;
+  line-height: 1;
 `;
 
 const EmptyState = styled.div`
