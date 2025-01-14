@@ -28,6 +28,8 @@ export interface TPost {
   recordMap?: any;
   status?: TPostStatus[];
   type?: TPostType[];
+  category?: string[];
+  summary?: string;
 }
 
 export type PostDetail = TPost & {

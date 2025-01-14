@@ -12,7 +12,7 @@ type Props = {
 }
 
 const PostCard: React.FC<Props> = ({ data }) => {
-  const category = (data.category && data.category?.[0]) || undefined
+  const category = data.category?.[0]
 
   return (
     <StyledWrapper href={`/${data.slug}`}>
