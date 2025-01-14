@@ -1,45 +1,33 @@
 import Detail from "src/routes/Detail"
-import { filterPosts } from "src/libs/utils/notion"
 import { CONFIG } from "site.config"
 import { NextPageWithLayout } from "../types"
-import { getRecordMap, getPosts } from "src/apis"
+import { getPosts, getPostDetail } from "src/apis"
 import MetaConfig from "src/components/MetaConfig"
 import { queryClient } from "src/libs/react-query"
 import { queryKey } from "src/constants/queryKey"
 import { dehydrate } from "@tanstack/react-query"
-import { FilterPostsOptions } from "src/libs/utils/notion/filterPosts"
+import { GetStaticPaths, GetStaticProps } from 'next'
 
-const filter: FilterPostsOptions = {
-  acceptStatus: ["Public", "PublicOnDetail"],
-  acceptType: ["Paper", "Post", "Page"],
-}
-
-export const getStaticPaths = async () => {
-  const posts = await getPosts()
-  const filteredPost = filterPosts(posts, filter)
-
-  return {
-    paths: filteredPost.map((row) => `/${row.slug}`),
-    fallback: true,
+interface StaticProps {
+  params: {
+    slug: string
   }
 }
 
-export const getStaticProps = async ({ params }) => {
+export const getStaticPaths: GetStaticPaths = async () => {
+  const posts = await getPosts()
+  return {
+    paths: posts.map((post) => ({ params: { slug: post.slug } })),
+    fallback: false,
+  }
+}
+
+export const getStaticProps: GetStaticProps = async ({ params }: StaticProps) => {
   const { slug } = params as { slug: string }
   
   try {
-    const posts = await getPosts()
-    const feedPosts = filterPosts(posts)
-    await queryClient.prefetchQuery(queryKey.posts(), () => feedPosts)
-
-    const detailPosts = filterPosts(posts, filter)
-    const postDetail = detailPosts.find((t) => t.slug === slug)
-    const recordMap = await getRecordMap(postDetail?.id!)
-    
-    await queryClient.prefetchQuery(queryKey.post(`${slug}`), () => ({
-      ...postDetail,
-      recordMap,
-    }))
+    const post = await getPostDetail(slug)
+    await queryClient.prefetchQuery(queryKey.post(slug), () => post)
 
     return {
       props: {
@@ -48,6 +36,7 @@ export const getStaticProps = async ({ params }) => {
       revalidate: CONFIG.revalidateTime,
     }
   } catch (error) {
+    console.error(error)
     return {
       notFound: true,
     }
