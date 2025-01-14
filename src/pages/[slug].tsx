@@ -6,12 +6,11 @@ import MetaConfig from "src/components/MetaConfig"
 import { queryClient } from "src/libs/react-query"
 import { queryKey } from "src/constants/queryKey"
 import { dehydrate } from "@tanstack/react-query"
-import { GetStaticPaths, GetStaticProps } from 'next'
+import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next'
+import { ParsedUrlQuery } from 'querystring'
 
-interface StaticProps {
-  params: {
-    slug: string
-  }
+interface IParams extends ParsedUrlQuery {
+  slug: string
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -22,8 +21,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-export const getStaticProps: GetStaticProps = async ({ params }: StaticProps) => {
-  const { slug } = params as { slug: string }
+export const getStaticProps: GetStaticProps<any, IParams> = async (context) => {
+  const { slug } = context.params!
   
   try {
     const post = await getPostDetail(slug)
