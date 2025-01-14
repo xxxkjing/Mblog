@@ -9,6 +9,7 @@ const initialOption: FilterPostsOptions = {
   acceptStatus: ["Public"],
   acceptType: ["Post"],
 }
+
 const current = new Date()
 const tomorrow = new Date(current)
 tomorrow.setDate(tomorrow.getDate() + 1)
@@ -28,11 +29,15 @@ export function filterPosts(
     })
     // filter status
     .filter((post) => {
+      // If no status is defined, treat as Public
+      if (!post.status || !post.status.length) return acceptStatus.includes("Public")
       const postStatus = post.status[0]
       return acceptStatus.includes(postStatus)
     })
     // filter type
     .filter((post) => {
+      // If no type is defined, treat as Post
+      if (!post.type || !post.type.length) return acceptType.includes("Post")
       const postType = post.type[0]
       return acceptType.includes(postType)
     })

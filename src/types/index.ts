@@ -26,6 +26,8 @@ export interface TPost {
   categories?: string[];
   thumbnail?: string;
   recordMap?: any;
+  status?: TPostStatus[];
+  type?: TPostType[];
 }
 
 export type PostDetail = TPost & {
