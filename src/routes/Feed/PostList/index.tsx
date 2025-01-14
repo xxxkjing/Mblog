@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react"
 import PostCard from "src/routes/Feed/PostList/PostCard"
 import { DEFAULT_CATEGORY } from "src/constants"
 import usePostsQuery from "src/hooks/usePostsQuery"
+import { getAllSelectItemsFromPosts } from "src/libs/utils/notion/getAllSelectItemsFromPosts"
 
 type Props = {
   q: string
@@ -16,6 +17,9 @@ const PostList: React.FC<Props> = ({ q }) => {
   const currentTag = `${router.query.tag || ``}` || undefined
   const currentCategory = `${router.query.category || ``}` || DEFAULT_CATEGORY
   const currentOrder = `${router.query.order || ``}` || "desc"
+
+  const categories = getAllSelectItemsFromPosts('categories', data)
+  const tags = getAllSelectItemsFromPosts('tags', data)
 
   useEffect(() => {
     setFilteredPosts(() => {

@@ -1,7 +1,9 @@
 import { TPosts } from "src/types"
 
+type SelectableKeys = keyof Pick<TPosts[0], 'tags' | 'categories'>;
+
 export function getAllSelectItemsFromPosts(
-  key: "tags" | "category",
+  key: SelectableKeys,
   posts: TPosts
 ) {
   const selectedPosts = posts.filter((post) => post?.[key])
