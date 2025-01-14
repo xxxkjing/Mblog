@@ -1,352 +1,349 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import styled from "@emotion/styled";
-import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 import { FiFile } from "react-icons/fi";
-import { FaLinkedin, FaGithub, FaInstagram, FaChevronLeft, FaChevronRight, FaArrowDown, FaRocket, FaBrain, FaPalette, FaMicrochip, FaLaptop } from "react-icons/fa";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { keyframes } from '@emotion/react';
+import { FaLinkedin, FaGithub, FaInstagram } from "react-icons/fa";
+import Link from 'next/link';
+import Image from 'next/image';
+import ThemeToggle from "./RootLayout/Header/ThemeToggle";
+import dynamic from 'next/dynamic';
 
 type LayoutProps = {
   children: ReactNode;
 };
 
+type Project = {
+  title: string;
+  link: string;
+  image: string;
+  description: string;
+  date: string;
+};
+
+const projects: Project[] = [
+  {
+    title: "Duke Applied Ethics+ & NCSSM SRIP",
+    link: "https://applied-ethics.vercel.app/",
+    image: "/images/dukeappliedethics.png",
+    description: "Case Study Analysis, UI/UX, Video Editing, Web Design",
+    date: "May - July 2024"
+  },
+  {
+    title: "Brailliant Website",
+    link: "https://brailliant.vercel.app/",
+    image: "/images/braillebox.png",
+    description: "Web Design, Visual Impairment, UI/UX, Accessibility",
+    date: "Aug 2024 - Present"
+  },
+  {
+    title: "Youth Climate Initiative Website",
+    link: "https://yci-website-enterprise.vercel.app/",
+    image: "/images/yci.png",
+    description: "Web Design, Climate Change, UI/UX, Fundraising",
+    date: "May 2024 - Present"
+  },
+  {
+    title: "MoodFlip: Gauging Emotions from Selfies",
+    link: "https://www.tejjaskaul.com/moodflip",
+    image: "/images/moodflip.png",
+    description: "UI/UX, AI/ML, Mobile App Development, Web Design",
+    date: "September 2023"
+  },
+  {
+    title: "Neuro-Ophthalmology Guide (NCSSM)",
+    link: "https://tkpepper15.github.io/neuro-midterm/",
+    image: "/images/neuro-ophthalmology.png",
+    description: "Scientific Writing, Analytical Research, Web Design, Neuroanatomy",
+    date: "March 2024"
+  },
+  {
+    title: "Smart Vision Glasses for the Elderly",
+    link: "https://www.tejjaskaul.com/ar-glasses",
+    image: "/images/smartglasses.png",
+    description: "AI/ML, UI/UX, Engaging with Professionals, Collaborative Discovery",
+    date: "December 2023 - Present"
+  }
+];
+
+const Logo = styled.span`
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.gray12};
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.gray11};
+  }
+`;
+
 const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
-  const router = useRouter();
-  const isIndexPage = router.pathname === "/";
-  const [isClient, setIsClient] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setIsClient(true);
+    setMounted(true);
   }, []);
 
-  const settings = {
-    infinite: true,
-    speed: 500,
-    lazyLoad: "ondemand" as const,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    nextArrow: <FaChevronRight />,
-    prevArrow: <FaChevronLeft />,
-    centerMode: false, // Default to false
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 2,
-          centerMode: true, // Enable center mode on tablets and smaller screens
-          arrows: false, // Hide arrows on mobile
-          slidesToScroll: 1,
-        }
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          centerMode: true, // Enable center mode on mobile screens
-          arrows: false, // Hide arrows on mobile
-          centerPadding: '25px', // Adjust padding for mobile screens
-        }
-      }
-    ]
-  };
+  // Create a common layout structure to ensure consistency
+  const content = (
+    <Section
+      {...(mounted ? {
+        initial: { opacity: 0, y: 20 },
+        animate: { opacity: 1, y: 0 },
+        exit: { opacity: 0, y: -20 }
+      } : {})}
+    >
+      <AboutSection>
+        <h1>Hi, I&apos;m <Highlight>Tejjas Kaul</Highlight></h1>
+        <Description>
+          A high schooler passionate about exploring the intersections of neuroscience and design.
+        </Description>
+        {mounted && (
+          <SocialLinks>
+            <a href="https://docs.google.com/document/d/1SVg5OicX0dVmVkmRItPTlU5I_I7bLPGrKWgzEr2HdlA/edit?usp=sharing" target="_blank" rel="noopener noreferrer"><FiFile /></a>
+            <a href="https://www.linkedin.com/in/tejjas-kaul-36091a22b/" target="_blank" rel="noopener noreferrer"><FaLinkedin /></a>
+            <a href="https://github.com/tkpepper15" target="_blank" rel="noopener noreferrer"><FaGithub /></a>
+            <a href="https://www.instagram.com/tejjaskphoto/" target="_blank" rel="noopener noreferrer"><FaInstagram /></a>
+          </SocialLinks>
+        )}
+      </AboutSection>
+
+      <ProjectsSection>
+        <SectionTitle>Relevant Work</SectionTitle>
+        <ProjectsGrid>
+          {projects.map((project) => (
+            <ProjectCard
+              key={project.title}
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              {...(mounted ? { whileHover: { y: -4 } } : {})}
+            >
+              {mounted ? (
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  width={400}
+                  height={225}
+                  style={{ 
+                    objectFit: "cover",
+                    width: "100%",
+                    height: "200px",
+                    borderRadius: "16px 16px 0 0"
+                  }}
+                />
+              ) : (
+                <div style={{ 
+                  width: "100%", 
+                  height: "200px",
+                  backgroundColor: "rgba(0,0,0,0.1)",
+                  borderRadius: "16px 16px 0 0"
+                }} />
+              )}
+              <ProjectContent>
+                <ProjectTitle className="project-title">{project.title}</ProjectTitle>
+                <ProjectDescription>{project.description}</ProjectDescription>
+                <ProjectDate suppressHydrationWarning>{project.date}</ProjectDate>
+              </ProjectContent>
+            </ProjectCard>
+          ))}
+        </ProjectsGrid>
+      </ProjectsSection>
+    </Section>
+  );
 
   return (
-    <Container>
-      {isClient && isIndexPage && (
-        <Header>
-          <ImageContainer>
-            <Image
-              src="/images/handwave.png"
-              alt="Tejjas Kaul"
-              width={200}
-              height={200}
-            />
-            <AboutMe>
-              <p>Hi, I'm <strong>Tejjas Kaul</strong>, a high schooler keen on exploring neurotech, public health, and design. Check out my <LinkStyle href="/blog">blog</LinkStyle> and connect with me!</p>
-            </AboutMe>
-            <SocialLinks>
-              <a href="https://docs.google.com/document/d/1SVg5OicX0dVmVkmRItPTlU5I_I7bLPGrKWgzEr2HdlA/edit?usp=sharing" target="_blank" rel="noopener noreferrer"><FiFile /></a>
-              <a href="https://www.linkedin.com/in/tejjas-kaul-36091a22b/" target="_blank" rel="noopener noreferrer"><FaLinkedin /></a>
-              <a href="https://github.com/tkpepper15" target="_blank" rel="noopener noreferrer"><FaGithub /></a>
-              <a href="https://www.instagram.com/tejjaskphoto/" target="_blank" rel="noopener noreferrer"><FaInstagram /></a>
-            </SocialLinks>
-          </ImageContainer>
-        </Header>
-      )}
-      <Main>
-        <Container>
-          <Heading>Relevant Work <BouncingArrow /></Heading>
-          {isClient && (
-            <Carousel {...settings}>
-              <MyProjects>
-                <ProjectContent href="https://applied-ethics.vercel.app/" target="_blank" rel="noopener noreferrer">
-                  <StyledLink>Duke Applied Ethics+ & NCSSM SRIP</StyledLink>
-                  <RoundedImage
-                    src="/images/dukeappliedethics.png"
-                    alt="Duke Applied Ethics+ Project"
-                    width={500}
-                    height={300}
-                  />
-                  <p>Case Study Analysis, UI/UX, Video Editing, Web Design</p>
-                  <DateText>May - July 2024</DateText>
-                </ProjectContent>
-              </MyProjects>
-              <MyProjects>
-                <ProjectContent href="https://drive.google.com/file/d/10IFe0ovxQgVi8ZPEvog8hrw5WO1sEgcC/view?usp=sharing" target="_blank" rel="noopener noreferrer">
-                <StyledLink>Neuroethics Scientific Essay (NCSSM)</StyledLink>
-                <RoundedImage
-                    src="/images/neuroethicsessay.png"
-                    alt="Neuroethics Essay"
-                    width={200}
-                    height={200}
-                  />
-                  <p>Literature Review, Scientific Writing, Analytical Research</p>
-                  <DateText>April 2024</DateText>
-                </ProjectContent>
-              </MyProjects>
-              <MyProjects>
-                <ProjectContent  href="https://braillebox-yvmw.vercel.app/" target="_blank" rel="noopener noreferrer">
-                <StyledLink>Brailliant Website</StyledLink>
-                <RoundedImage
-                    src="/images/braillebox.png"
-                    alt="Brailliant"
-                    width={200}
-                    height={150}
-                  />
-                  <p>Web Design, Visual Impairment, UI/UX, Accessibility</p>
-                  <DateText>Aug 2024 - Present</DateText>
-                </ProjectContent>
-              </MyProjects>
-              <MyProjects>
-                <ProjectContent  href="https://yci-website-enterprise.vercel.app/" target="_blank" rel="noopener noreferrer">
-                <StyledLink>Youth Climate Initiative Website</StyledLink>
-                <RoundedImage
-                    src="/images/yci.png"
-                    alt="YCI"
-                    width={200}
-                    height={200}
-                  />
-                  <p>Web Design, Climate Change, UI/UX, Fundraising</p>
-                  <DateText>May 2024 - Present</DateText>
-                </ProjectContent>
-              </MyProjects>
-              <MyProjects>
-                <ProjectContent  href="https://www.tejjaskaul.com/moodflip" target="_blank" rel="noopener noreferrer">
-                <StyledLink>MoodFlip: Gauging Emotions from Selfies</StyledLink>
-                <RoundedImage
-                    src="/images/moodflip.png"
-                    alt="Moodflip"
-                    width={200}
-                    height={200}
-                  />
-                  <p>UI/UX, AI/ML, Mobile App Development, Web Design</p>
-                  <DateText>September 2023</DateText>
-                </ProjectContent>
-              </MyProjects>
-              <MyProjects>
-                <ProjectContent  href="https://tkpepper15.github.io/neuro-midterm/" target="_blank" rel="noopener noreferrer">
-                <StyledLink>Neuro-Ophthalmology Guide (NCSSM)</StyledLink>
-                <RoundedImage
-                    src="/images/neuro-ophthalmology.png"
-                    alt="Neuro-Ophthalmology Guide"
-                    width={200}
-                    height={200}
-                  />
-                  <p>Scientific Writing, Analytical Research, Web Design, Neuroanatomy</p>
-                  <DateText>March 2024</DateText>
-                </ProjectContent>
-              </MyProjects>
-              <MyProjects>
-                <ProjectContent  href="https://www.tejjaskaul.com/ar-glasses" target="_blank" rel="noopener noreferrer">
-                <StyledLink>Smart Vision Glasses for the Elderly</StyledLink>
-                <RoundedImage
-                    src="/images/smartglasses.png"
-                    alt="Smart Glasses"
-                    width={200}
-                    height={200}
-                  />
-                  <p>AI/ML, UI/UX, Engaging with Professionals, Collaborative Discovery</p>
-                  <DateText>December 2023 - Present</DateText>
-                </ProjectContent>
-              </MyProjects>
-            </Carousel>
-          )}
-        </Container>
-      <FooterContainer>© Tejjas Kaul</FooterContainer>
-      </Main>
-    </Container>
-    
+    <Wrapper>
+      
+      <Container>
+        <Main>
+          {mounted ? (
+            <AnimatePresence mode="wait">
+              {content}
+            </AnimatePresence>
+          ) : content}
+        </Main>
+      </Container>
+    </Wrapper>
   );
 };
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 0; // Remove padding to ensure edge-to-edge design
-  margin: 0; // Remove margin
+const Wrapper = styled.div`
+  min-height: 100vh;
+  background-color: ${({ theme }) => theme.colors.gray1};
 `;
 
-const Header = styled.header`
-  max-width: 100%; // Ensure full width
-  margin: 0 auto;
-  padding: .5rem; // Adjust padding for better mobile view
-  text-align: center;
+const GlobalHeader = styled.header`
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: ${({ theme }) => theme.colors.gray1};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.gray4};
+  backdrop-filter: blur(10px);
+`;
 
-  @media (min-width: 768px) {
-    max-width: 60%;
+const HeaderContent = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  a {
+    text-decoration: none;
   }
 `;
 
-const ImageContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const RoundedImage = styled(Image)`
-  border-radius: 0.5rem;
-  overflow: hidden;
-  width: 100%;
-  height: auto;
-`;
-
-const SocialLinks = styled.div`
-  display: flex;
-  gap: 15px;
-  background-color: ${({ theme }) =>
-    theme.scheme === "light" ? "white" : theme.colors.gray1};
-  padding: 10px;
-  border-radius: 10px;
-  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
-  position: static; // Update position for better mobile positioning
-  margin-top: 10px;
-`;
-
-const MyProjects = styled.div`
-  display: flex;
-  padding: 1rem;
-  width: 90%;
-  max-width: 350px; // Ensure the width is not too large on smaller screens
-  flex-direction: column;
-  border-radius: 10px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  margin: 0 auto;
-  background: ${({ theme }) =>
-    theme.scheme === "light" ? "white" : theme.colors.gray1};
-  transition: background 0.3s ease, color 0.3s ease;
-  align-items: center;
-`;
-
-const ProjectContent = styled.a`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const StyledLink = styled.a`
-  font-weight: 700;
-  text-decoration: underline;
-  font-size: 1.5rem; // Reduce font size on smaller screens
-  color: inherit;
-  text-align: center; // Center the text
-  margin-bottom: 1rem;
-`;
-
-
-const LinkStyle = styled.a`
-  color: gray;
-`;
-
-const Heading = styled.h2`
-  font-size: 1.5rem; // Reduce font size on smaller screens
-  line-height: 2.25rem; // Adjust line height
-  font-weight: 400;
-  margin: 1rem 0; // Add margin for spacing
-  text-align: center;
-`;
-
-const AboutMe = styled.div`
-  display: flex;
-  padding: .5rem; // Increase padding for better touch targets
-  flex-direction: column;
-  border-radius: 10px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  background-color: ${({ theme }) =>
-    theme.scheme === "light" ? "white" : theme.colors.gray1};
+const Container = styled.div`
+  padding: 2rem;
 `;
 
 const Main = styled.main`
-  flex: 1;
+  max-width: 1200px;
+  margin: 0 auto;
 `;
 
-const Carousel = styled(Slider)`
-  width: 100%; // Ensure full width on smaller screens
+const Section = styled(motion.div)``;
 
-  .slick-slide {
-    display: flex;
-    justify-content: center;
-    padding: 10px;
+const AboutSection = styled.div`
+  text-align: center;
+  margin-bottom: 4rem;
+`;
+
+const ProjectsSection = styled.div`
+  margin-top: 6rem;
+  padding: 0 1rem;
+`;
+
+const Description = styled.p`
+  font-size: 1.25rem;
+  color: ${({ theme }) => theme.colors.gray11};
+  margin: 1.5rem 0;
+  max-width: 600px;
+  margin: 1.5rem auto;
+`;
+
+const Highlight = styled.span`
+  color: ${({ theme }) => theme.colors.gray12};
+  font-weight: 600;
+`;
+
+const SectionTitle = styled.h2`
+  font-size: 2rem;
+  color: ${({ theme }) => theme.colors.gray12};
+  margin-bottom: 3rem;
+  font-weight: 600;
+  text-align: center;
+`;
+
+const ProjectsGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    padding: 0 1rem;
   }
+`;
 
-  .slick-prev, .slick-next {
-    color: ${({ theme }) => theme.scheme === "light" ? "black" : "white"};
-    margin: .5rem;
+const ProjectTitle = styled.h3`
+  font-size: 1.25rem;
+  color: ${({ theme }) => theme.colors.gray12};
+  margin: 0;
+  font-weight: 600;
+  transition: color 0.2s ease;
+`;
+
+const ProjectDescription = styled.p`
+  color: ${({ theme }) => theme.colors.gray11};
+  font-size: 0.875rem;
+  line-height: 1.6;
+  margin: 0;
+  flex-grow: 1;
+`;
+
+const ProjectDate = styled.div`
+  font-size: 0.875rem;
+  color: ${({ theme }) => theme.colors.gray10};
+  font-weight: 500;
+  margin-top: auto;
+`;
+
+const ProjectCard = styled(motion.a)`
+  text-decoration: none;
+  color: inherit;
+  background: ${({ theme }) => theme.colors.gray2};
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
-
-  .slick-prev:before, .slick-next:before {
-    font-family: 'FontAwesome';
-  }
-
-  .slick-dots li button:before {
-    color: ${({ theme }) => theme.scheme === "light" ? "black" : "white"};
-  }
-
-  // Hide arrows on mobile
-  @media (max-width: 600px) {
-    .slick-prev, .slick-next {
-      display: none;
+  
+  &:hover {
+    transform: translateY(-8px);
+    
+    &::after {
+      opacity: 1;
+    }
+    
+    .project-title {
+      color: ${({ theme }) => theme.colors.blue11};
     }
   }
 `;
 
-const DateText = styled.span`
-  color: gray;
-`;
-
-const bounce = keyframes`
-  0%, 20%, 50%, 80%, 100% {
-    transform: translateY(0);
-  }
-  40% {
-    transform: translateY(-20px);
-  }
-  60% {
-    transform: translateY(-10px);
-  }
-`;
-
-const BouncingArrow = styled(FaArrowDown)`
-  animation: ${bounce} 2s infinite;
-`;
-
-const FooterContainer = styled.footer`
+const ProjectContent = styled.div`
+  padding: 1.5rem;
   display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  height: 100%;
+`;
+
+const SocialLinks = styled.div`
+  display: flex;
+  gap: 1.5rem;
   justify-content: center;
-  align-items: center;
-  padding: 1rem;
-  color: #333;
-  margin-bottom: 1rem;
-  font-size: 0.875rem;
+  margin-top: 2rem;
 
   a {
-    margin-top: 0.75rem;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    color: ${({ theme }) => theme.colors.gray10};
+    color: ${({ theme }) => theme.colors.gray11};
+    font-size: 1.25rem;
+    transition: all 0.2s ease;
+
+    &:hover {
+      color: ${({ theme }) => theme.colors.gray12};
+      transform: translateY(-2px);
+    }
+  }
+`;
+
+const NavLinks = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+`;
+
+const NavLink = styled(Link)`
+  color: ${({ theme }) => theme.colors.gray11};
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.gray12};
   }
 `;
 

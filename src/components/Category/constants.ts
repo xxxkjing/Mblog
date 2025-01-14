@@ -1,3 +1,15 @@
+export const CATEGORIES = [
+  'All',
+  'Technology',
+  'Design',
+  'Neuroscience',
+  'Programming',
+  'Research',
+  'Projects'
+] as const;
+
+export type Category = typeof CATEGORIES[number];
+
 export const COLOR_SET: { [key: string]: string } = {
   0: "rgb(186 230 253)",
   1: "rgb(254 205 211)",
@@ -15,4 +27,4 @@ export const COLOR_SET: { [key: string]: string } = {
   D: "rgb(233 213 255)",
   E: "rgb(199 210 254)",
   F: "rgb(209 250 229)",
-}
+};

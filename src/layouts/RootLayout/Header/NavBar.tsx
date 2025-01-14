@@ -1,41 +1,38 @@
-import styled from "@emotion/styled";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import styled from "@emotion/styled";
 
-interface LinkItem {
-  id: number;
-  name: string;
-  to: string;
-}
-
-const NavBar: React.FC = () => {
-  const links: LinkItem[] = [
-    { id: 2, name: "blog", to: "/blog" },
-  ];
+const NavBar = () => {
+  const router = useRouter();
 
   return (
-    <StyledWrapper className="">
-      <ul>
-        {links.map((link) => (
-          <li key={link.id}>
-            <Link href={link.to}>{link.name}</Link>
-          </li>
-        ))}
-      </ul>
-    </StyledWrapper>
+    <Nav>
+      <Link href="/" passHref>
+        <NavLink isActive={router.pathname === "/"}>Work</NavLink>
+      </Link>
+      <Link href="/blog" passHref>
+        <NavLink isActive={router.pathname === "/blog"}>Blog</NavLink>
+      </Link>
+    </Nav>
   );
 };
 
-export default NavBar;
+const Nav = styled.nav`
+  display: flex;
+  gap: 1rem;
+`;
 
-const StyledWrapper = styled.nav`
-  flex-shrink: 0;
-  ul {
-    display: flex;
-    flex-direction: row;
-    li {
-      display: block;
-      margin-right: 1rem;
-      color: ${({ theme }) => theme.colors.gray11};
-    }
+const NavLink = styled.a<{ isActive: boolean }>`
+  padding: 0.5rem 1rem;
+  color: ${({ theme, isActive }) => 
+    isActive ? theme.colors.gray12 : theme.colors.gray11};
+  font-weight: ${({ isActive }) => isActive ? 600 : 400};
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.gray12};
   }
 `;
+
+export default NavBar;

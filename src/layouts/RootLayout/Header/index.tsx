@@ -28,34 +28,30 @@ const StyledWrapper = styled.div`
   z-index: ${zIndexes.header};
   position: sticky;
   top: 0;
-  margin-bottom: 0.5rem;
   background-color: ${({ theme }) => theme.colors.gray2};
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-
-  @media (min-width: 768px) {
-    margin-bottom: 1.5rem;
-  }
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid ${({ theme }) => theme.colors.gray4};
 
   .container {
     display: flex;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding: 1rem 1.5rem;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
-    max-width: 1120px;
-    height: 3rem;
+    max-width: 1200px;
     margin: 0 auto;
-    &[data-full-width="true"] {
-      @media (min-width: 768px) {
-        padding-left: 6rem;
-        padding-right: 6rem;
-      }
-    }
+    height: 4rem;
+
     .nav {
       display: flex;
-      gap: 0.75rem;
+      gap: 1.5rem;
       align-items: center;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      padding: 1rem;
+      height: 3.5rem;
     }
   }
 `
