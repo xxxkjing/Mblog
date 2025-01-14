@@ -6,15 +6,14 @@ import Category from "src/components/Category"
 import styled from "@emotion/styled"
 import NotionRenderer from "../components/NotionRenderer"
 import usePostQuery from "src/hooks/usePostQuery"
+import { TPost } from "src/types"
 
-type Props = {}
-
-const PostDetail: React.FC<Props> = () => {
-  const data = usePostQuery()
+const PostDetail: React.FC = () => {
+  const data = usePostQuery() as TPost
 
   if (!data) return null
 
-  const category = (data.category && data.category?.[0]) || undefined
+  const category = (data.categories?.[0]) || undefined
 
   return (
     <StyledWrapper>
@@ -26,11 +25,11 @@ const PostDetail: React.FC<Props> = () => {
             </Category>
           </div>
         )}
-        {data.type[0] === "Post" && <PostHeader data={data} />}
+        {data.type?.[0] === "Post" && <PostHeader data={data} />}
         <div>
           <NotionRenderer recordMap={data.recordMap} />
         </div>
-        {data.type[0] === "Post" && (
+        {data.type?.[0] === "Post" && (
           <>
             <Footer />
             <CommentBox data={data} />
