@@ -19,7 +19,7 @@ const BlogPost: React.FC<BlogPostProps> = ({ post }) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
     >
-      <Link href={`/${post.slug}`} passHref>
+      <Link href={`/blog/${post.slug}`} passHref>
         <PostLink>
           {post.thumbnail && (
             <ImageContainer>

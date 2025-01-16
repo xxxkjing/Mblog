@@ -12,13 +12,15 @@ import { useRouter } from "next/router"
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const posts = await getPosts()
-  const paths = posts.map((post) => ({
-    params: { slug: post.slug },
-  }))
+  const paths = posts
+    .filter((post): post is TPost => !!post?.slug)
+    .map((post) => ({
+      params: { slug: post.slug }
+    }))
 
   return {
     paths,
-    fallback: "blocking",
+    fallback: false
   }
 }
 
