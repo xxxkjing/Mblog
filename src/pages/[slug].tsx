@@ -14,10 +14,16 @@ interface IParams extends ParsedUrlQuery {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const posts = await getPosts()
+  const posts = await getAllPosts()
+  const paths = posts
+    .filter((post): post is TPost => !!post?.slug)
+    .map((post) => ({
+      params: { slug: post.slug }
+    }))
+
   return {
-    paths: posts.map((post) => ({ params: { slug: post.slug } })),
-    fallback: false,
+    paths,
+    fallback: false
   }
 }
 
