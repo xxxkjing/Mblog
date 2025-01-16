@@ -8,13 +8,14 @@ import { queryKey } from "src/constants/queryKey"
 import { dehydrate } from "@tanstack/react-query"
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next'
 import { ParsedUrlQuery } from 'querystring'
+import { TPost } from "src/types"
 
 interface IParams extends ParsedUrlQuery {
   slug: string
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const posts = await getAllPosts()
+  const posts = await getPosts()
   const paths = posts
     .filter((post): post is TPost => !!post?.slug)
     .map((post) => ({
