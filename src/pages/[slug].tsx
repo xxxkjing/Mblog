@@ -2,11 +2,10 @@ import Detail from "src/routes/Detail"
 import { CONFIG } from "site.config"
 import { NextPageWithLayout } from "../types"
 import { getPosts, getPostDetail } from "src/apis"
-import MetaConfig from "src/components/MetaConfig"
 import { queryClient } from "src/libs/react-query"
 import { queryKey } from "src/constants/queryKey"
 import { dehydrate } from "@tanstack/react-query"
-import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next'
+import { GetStaticPaths, GetStaticProps } from 'next'
 import { ParsedUrlQuery } from 'querystring'
 import { TPost } from "src/types"
 
@@ -53,4 +52,4 @@ const DetailPage: NextPageWithLayout = () => {
   return <Detail />
 }
 
-export default DetailPage
+export default DetailPage 
