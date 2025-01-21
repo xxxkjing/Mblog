@@ -7,10 +7,10 @@ const NavBar = () => {
 
   return (
     <Nav>
-      <Link href="/" passHref>
-        <NavLink isActive={router.pathname === "/"}>Work</NavLink>
+      <Link href="/" legacyBehavior>
+        <NavLink isActive={router.pathname === "/"}>Me</NavLink>
       </Link>
-      <Link href="/blog" passHref>
+      <Link href="/blog" legacyBehavior>
         <NavLink isActive={router.pathname === "/blog"}>Blog</NavLink>
       </Link>
     </Nav>

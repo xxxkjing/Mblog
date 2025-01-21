@@ -122,8 +122,8 @@ const BlogPage: NextPageWithLayout = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
               >
-                <Link href={`/${post.slug}`} passHref>
-                  <CardContent>
+                <StyledLink href={`/${post.slug}`}>
+                  <div>
                     {post.thumbnail && (
                       <ImageWrapper>
                         <Image
@@ -173,8 +173,8 @@ const BlogPage: NextPageWithLayout = () => {
                         )}
                       </MetadataContainer>
                     </CardBody>
-                  </CardContent>
-                </Link>
+                  </div>
+                </StyledLink>
               </BlogCard>
             ))}
           </BlogGrid>
@@ -218,7 +218,7 @@ const BlogCard = styled(motion.article)`
   }
 `;
 
-const CardContent = styled.a`
+const StyledLink = styled(Link)`
   display: block;
   text-decoration: none;
   color: inherit;

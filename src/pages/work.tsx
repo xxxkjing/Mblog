@@ -11,6 +11,7 @@ import TagsSection from 'src/components/TagsSection';
 type Project = {
   title: string;
   link: string;
+  demoLink?: string;
   image: string;
   description: string;
   date: string;
@@ -21,6 +22,7 @@ const projects: Project[] = [
   {
     title: "Duke Applied Ethics+ & NCSSM SRIP",
     link: "https://applied-ethics.vercel.app/",
+    demoLink: "https://www.youtube.com/watch?v=Ne1Vq62ntLo",
     image: "/images/dukeappliedethics.png",
     description: "A research initiative exploring ethical implications in technology through interactive case studies and collaborative learning.",
     date: "May - July 2024",
@@ -97,10 +99,10 @@ const WorkPage: NextPageWithLayout = () => {
     : projects;
 
   const meta = {
-    title: "Selected Work — Tejjas Kaul",
+    title: "Me — Tejjas Kaul",
     description: "A curated collection of projects at the intersection of technology, healthcare, and social impact.",
     type: "website",
-    url: `${CONFIG.link}/work`,
+    url: `${CONFIG.link}/me`,
   };
 
   if (!mounted) return null;
@@ -109,88 +111,92 @@ const WorkPage: NextPageWithLayout = () => {
     <>
       <MetaConfig {...meta} />
       <Container>
-        <Header>
-          <Title>Selected Work</Title>
-          <Description>
-            A curated collection of projects at the intersection of technology, healthcare, and social impact
-          </Description>
-        </Header>
-        <Main>
-          <TagsSection 
-            tags={tags}
-            selectedTag={selectedTag}
-            onTagSelect={handleTagClick}
-          />
-          <ProjectGrid>
-            {filteredProjects.map((project, index) => (
-              <ProjectCard
-                key={project.title}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
-              >
-                <Link href={project.link} passHref>
-                  <CardContent target="_blank" rel="noopener noreferrer">
-                    {mounted && (
-                      <ImageWrapper>
-                        <Image
-                          src={project.image}
-                          alt={project.title}
-                          fill
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                          style={{ objectFit: 'cover' }}
-                          priority={index < 2}
-                        />
-                      </ImageWrapper>
+        <Title>Me</Title>
+        <Description>
+          A curated collection of projects at the intersection of technology, healthcare, and social impact
+        </Description>
+        
+        <TagsSection 
+          tags={tags}
+          selectedTag={selectedTag}
+          onTagSelect={handleTagClick}
+        />
+
+        <ProjectGrid>
+          {filteredProjects.map((project, index) => (
+            <ProjectCard
+              key={project.title}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.05 }}
+            >
+              <CardContent>
+                {mounted && (
+                  <ImageWrapper>
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      style={{ objectFit: 'cover' }}
+                      priority={index < 2}
+                    />
+                  </ImageWrapper>
+                )}
+                <CardBody>
+                  <ProjectDate suppressHydrationWarning>
+                    {project.date}
+                  </ProjectDate>
+                  <ProjectTitle>{project.title}</ProjectTitle>
+                  <ProjectDescription>{project.description}</ProjectDescription>
+                  <Tags>
+                    {project.tags.map(tag => (
+                      <Tag 
+                        key={tag}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          handleTagClick(tag);
+                        }}
+                        isActive={selectedTag === tag}
+                      >
+                        {tag}
+                      </Tag>
+                    ))}
+                  </Tags>
+                  <Links>
+                    <LinkButton href={project.link} target="_blank" rel="noopener noreferrer">
+                      View Project
+                    </LinkButton>
+                    {project.demoLink && (
+                      <LinkButton 
+                        href={project.demoLink} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="demo"
+                      >
+                        Watch Demo
+                      </LinkButton>
                     )}
-                    <CardBody>
-                      <MetadataContainer>
-                        <ProjectDate suppressHydrationWarning>
-                          {project.date}
-                        </ProjectDate>
-                        <ProjectTitle>{project.title}</ProjectTitle>
-                        <ProjectDescription>{project.description}</ProjectDescription>
-                        <Tags>
-                          {project.tags.map(tag => (
-                            <Tag 
-                              key={tag}
-                              onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                handleTagClick(tag);
-                              }}
-                              isActive={selectedTag === tag}
-                            >
-                              {tag}
-                            </Tag>
-                          ))}
-                        </Tags>
-                      </MetadataContainer>
-                    </CardBody>
-                  </CardContent>
-                </Link>
-              </ProjectCard>
-            ))}
-          </ProjectGrid>
-        </Main>
+                  </Links>
+                </CardBody>
+              </CardContent>
+            </ProjectCard>
+          ))}
+        </ProjectGrid>
       </Container>
     </>
   );
 };
 
-const Container = styled.div`
-  padding: 2rem 1.5rem;
+const Container = styled.main`
   max-width: 1200px;
   margin: 0 auto;
+  padding: 2rem 1rem;
 
   @media (max-width: 768px) {
-    padding: 1.5rem 1rem;
+    padding: 1.5rem 0;
   }
-`;
-
-const Header = styled.header`
-  text-align: center;
-  margin-bottom: 3rem;
 `;
 
 const Title = styled.h1`
@@ -198,10 +204,12 @@ const Title = styled.h1`
   font-weight: 700;
   color: ${({ theme }) => theme.colors.gray12};
   margin-bottom: 0.75rem;
+  text-align: center;
   letter-spacing: -0.02em;
 
   @media (max-width: 768px) {
     font-size: 2rem;
+    padding: 0 1rem;
   }
 `;
 
@@ -209,11 +217,15 @@ const Description = styled.p`
   font-size: 1.125rem;
   color: ${({ theme }) => theme.colors.gray11};
   max-width: 600px;
-  margin: 0 auto;
+  margin: 0 auto 3rem;
+  text-align: center;
   line-height: 1.6;
-`;
+  padding: 0 1rem;
 
-const Main = styled.main``;
+  @media (max-width: 768px) {
+    margin-bottom: 2rem;
+  }
+`;
 
 const ProjectGrid = styled.div`
   display: grid;
@@ -221,8 +233,8 @@ const ProjectGrid = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
 
   @media (max-width: 768px) {
+    gap: 0;
     grid-template-columns: 1fr;
-    gap: 1.5rem;
   }
 `;
 
@@ -231,22 +243,17 @@ const ProjectCard = styled(motion.article)`
   border: 1px solid ${({ theme }) => theme.colors.gray4};
   border-radius: 16px;
   overflow: hidden;
-  transition: all 0.2s ease-in-out;
 
   @media (max-width: 768px) {
-    border-radius: 12px;
-  }
-
-  &:hover {
-    transform: translateY(-4px);
-    border-color: ${({ theme }) => theme.colors.gray6};
-    box-shadow: 0 4px 12px ${({ theme }) => theme.colors.gray4};
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    border-bottom: 1px solid ${({ theme }) => theme.colors.gray4};
   }
 `;
 
-const CardContent = styled.a`
-  display: block;
-  text-decoration: none;
+const CardContent = styled.div`
   color: inherit;
 `;
 
@@ -263,9 +270,12 @@ const ImageWrapper = styled.div`
 
 const CardBody = styled.div`
   padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 
   @media (max-width: 768px) {
-    padding: 1.25rem;
+    padding: 1rem;
   }
 `;
 
@@ -322,6 +332,37 @@ const Tag = styled.span<{ isActive?: boolean }>`
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.blue4};
+  }
+`;
+
+const Links = styled.div`
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+`;
+
+const LinkButton = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  background: ${({ theme }) => theme.colors.blue4};
+  color: ${({ theme }) => theme.colors.blue11};
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.blue5};
+  }
+
+  &.demo {
+    background: ${({ theme }) => theme.colors.gray3};
+    color: ${({ theme }) => theme.colors.gray11};
+
+    &:hover {
+      background: ${({ theme }) => theme.colors.gray4};
+    }
   }
 `;
 
