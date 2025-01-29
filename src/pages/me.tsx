@@ -275,10 +275,14 @@ const FocusGrid = styled.div`
 
 const FocusCard = styled.div`
   padding: 1.5rem;
-  background: ${({ theme }) => theme.colors.gray2};
-  border: 1px solid ${({ theme }) => theme.colors.gray4};
+  border: 1px solid ${({ theme }) => theme.colors.gray6};
   border-radius: 12px;
   text-align: center;
+  transition: border-color 0.2s ease;
+
+  &:hover {
+    border-color: ${({ theme }) => theme.colors.gray8};
+  }
 `;
 
 const IconWrapper = styled.div`
@@ -315,13 +319,13 @@ const ProjectItem = styled.li`
 const ProjectLink = styled.a`
   display: block;
   padding: 1.25rem;
-  background: ${({ theme }) => theme.colors.gray2};
-  border: 1px solid ${({ theme }) => theme.colors.gray4};
+  border: 1px solid ${({ theme }) => theme.colors.gray6};
   border-radius: 12px;
   text-decoration: none;
   transition: all 0.2s ease;
+
   &:hover {
-    background: ${({ theme }) => theme.colors.gray3};
+    border-color: ${({ theme }) => theme.colors.gray8};
     transform: translateY(-2px);
   }
 `;

@@ -43,7 +43,6 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
 
 const Wrapper = styled.div`
   min-height: 100vh;
-  background-color: ${({ theme }) => theme.colors.gray1};
 `;
 
 const Container = styled.div`

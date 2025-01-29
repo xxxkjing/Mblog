@@ -1,58 +1,71 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
 import SearchInput from 'src/routes/Feed/SearchInput';
-import CategoryList from 'src/components/Category/CategoryList';
 
 type BlogLayoutProps = {
-  children: React.ReactNode;
-  onSearch?: (value: string) => void;
-  selectedCategory?: string;
-  onCategoryChange?: (category: string) => void;
-  categories?: string[];
+  children: ReactNode;
+  onSearch: (query: string) => void;
+  selectedCategories: string[];
+  onCategoryChange: (category: string) => void;
+  categories: string[];
+  selectedTags?: string[];
+  onTagChange?: (tag: string) => void;
+  tags?: Array<[string, number]>;
 };
 
-interface SearchInputProps {
-  onSearch?: (value: string) => void;
-}
-
-interface CategoryListProps {
-  selected: string;
-  onChange: (category: string) => void;
-}
-
-const BlogLayout: React.FC<BlogLayoutProps> = ({ 
-  children, 
+const BlogLayout: React.FC<BlogLayoutProps> = ({
+  children,
   onSearch,
-  selectedCategory = 'All',
-  onCategoryChange = () => {},
-  categories
+  selectedCategories,
+  onCategoryChange,
+  categories,
+  selectedTags = [],
+  onTagChange,
+  tags = [],
 }) => {
   return (
-    <Container>
-      <Header>
-        <HeaderContent>
-          <Title>Thoughts & Notes</Title>
-          <Description>
-            Exploring the intersections of technology, design, and neuroscience
-          </Description>
-        </HeaderContent>
-        <FilterSection>
-          <SearchContainer>
+    <Wrapper>
+      <Container>
+        <Header>
+          <SearchWrapper>
             <SearchInput onSearch={onSearch} />
-          </SearchContainer>
-
-        </FilterSection>
-      </Header>
-      <Main>
-        <ContentWrapper
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.4 }}
-        >
-          {children}
-        </ContentWrapper>
-      </Main>
+          </SearchWrapper>
+          <FilterGroups>
+            <Categories>
+              {categories.filter(cat => cat !== 'All').map((category) => (
+                <CategoryButton
+                  key={category}
+                  isActive={selectedCategories.includes(category)}
+                  onClick={() => onCategoryChange(category)}
+                >
+                  {category}
+                </CategoryButton>
+              ))}
+            </Categories>
+            <TagsSection>
+              {tags.map(([tag]) => (
+                <TagButton
+                  key={tag}
+                  isActive={selectedTags.includes(tag)}
+                  onClick={() => onTagChange?.(tag)}
+                >
+                  {tag}
+                </TagButton>
+              ))}
+            </TagsSection>
+          </FilterGroups>
+        </Header>
+        <Main>
+          <ContentWrapper
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4 }}
+          >
+            {children}
+          </ContentWrapper>
+        </Main>
+      </Container>
       <Footer>
         <FooterContent>
           <Copyright>© {new Date().getFullYear()} Tejjas Kaul. All rights reserved.</Copyright>
@@ -61,93 +74,74 @@ const BlogLayout: React.FC<BlogLayoutProps> = ({
           </Attribution>
         </FooterContent>
       </Footer>
-    </Container>
+    </Wrapper>
   );
 };
 
-const Container = styled.div`
+const Wrapper = styled.div`
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  background-color: ${({ theme }) => theme.colors.gray1};
+`;
+
+const Container = styled.div`
+  flex: 1;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+  }
 `;
 
 const Header = styled.header`
-  padding: 4rem 1.5rem 2rem;
-  background: ${({ theme }) => theme.colors.gray1};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.gray4};
-
-  @media (max-width: 768px) {
-    padding: 2rem 1rem 1.5rem;
-  }
+  margin-bottom: 2rem;
 `;
 
-const HeaderContent = styled.div`
-  max-width: 800px;
-  margin: 0 auto;
-  text-align: center;
+const SearchWrapper = styled.div`
+  margin-bottom: 1.5rem;
 `;
 
-const FilterSection = styled.div`
-  max-width: 800px;
-  margin: 2rem auto 0;
+const FilterGroups = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 `;
 
-const Title = styled.h1`
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: ${({ theme }) => theme.colors.gray12};
-  margin-bottom: 0.75rem;
-  letter-spacing: -0.02em;
-
-  @media (max-width: 768px) {
-    font-size: 2rem;
-  }
+const Categories = styled.div`
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 `;
 
-const Description = styled.p`
-  font-size: 1.125rem;
-  color: ${({ theme }) => theme.colors.gray11};
-  max-width: 600px;
-  margin: 0 auto;
-  line-height: 1.6;
-`;
+const CategoryButton = styled.button<{ isActive: boolean }>`
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  border: 1px solid ${({ theme, isActive }) => 
+    isActive ? theme.colors.gray8 : theme.colors.gray6};
+  color: ${({ theme, isActive }) => 
+    isActive ? theme.colors.gray12 : theme.colors.gray11};
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
 
-const SearchContainer = styled.div`
-  margin: 0 auto 1.5rem;
-`;
-
-const CategoryContainer = styled.div`
-  margin: 0 auto;
-  padding: 0.5rem 0;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  
-  &::-webkit-scrollbar {
-    display: none;
+  &:hover {
+    border-color: ${({ theme }) => theme.colors.gray8};
+    color: ${({ theme }) => theme.colors.gray12};
   }
 `;
 
 const Main = styled.main`
-  flex: 1;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem 1.5rem;
   width: 100%;
-  background: ${({ theme }) => theme.colors.gray1};
-
-  @media (max-width: 768px) {
-    padding: 1.5rem 1rem;
-  }
 `;
 
 const ContentWrapper = styled(motion.div)``;
 
 const Footer = styled.footer`
-  padding: 2rem 1.5rem;
-  background: ${({ theme }) => theme.colors.gray1};
-  border-top: 1px solid ${({ theme }) => theme.colors.gray4};
+  padding: 2rem;
+  border-top: 1px solid ${({ theme }) => theme.colors.gray6};
 `;
 
 const FooterContent = styled.div`
@@ -181,6 +175,33 @@ const Attribution = styled.p`
     &:hover {
       color: ${({ theme }) => theme.colors.blue11};
     }
+  }
+`;
+
+const TagsSection = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  padding: 0.5rem 0;
+`;
+
+const TagButton = styled.button<{ isActive: boolean }>`
+  font-size: 0.75rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  background: ${({ theme, isActive }) => isActive ? theme.colors.gray3 : 'none'};
+  border: 1px solid ${({ theme, isActive }) => 
+    isActive ? theme.colors.gray8 : theme.colors.gray5};
+  color: ${({ theme, isActive }) => 
+    isActive ? theme.colors.gray12 : theme.colors.gray11};
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: ${({ theme }) => theme.colors.gray7};
+    color: ${({ theme }) => theme.colors.gray12};
   }
 `;
 

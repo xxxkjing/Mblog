@@ -1,68 +1,65 @@
-import styled from "@emotion/styled";
-import React, { InputHTMLAttributes } from "react";
+import React from 'react';
+import styled from '@emotion/styled';
+import { FiSearch } from 'react-icons/fi';
 
-interface SearchInputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface SearchInputProps {
   onSearch?: (value: string) => void;
 }
 
-const SearchInput: React.FC<SearchInputProps> = ({ onSearch, ...props }) => {
+const SearchInput: React.FC<SearchInputProps> = ({ onSearch }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (onSearch) {
-      onSearch(e.target.value);
-    }
+    onSearch?.(e.target.value);
   };
 
   return (
-    <StyledWrapper>
-      <div className="mid">
-        <input
-          className="input-wrapper"
-          type="text"
-          placeholder="What are you looking for?"
-          onChange={handleChange}
-          {...props}
-        />
-      </div>
-    </StyledWrapper>
+    <SearchWrapper>
+      <SearchIcon />
+      <Input
+        type="text"
+        placeholder="Search posts..."
+        onChange={handleChange}
+        spellCheck={false}
+      />
+    </SearchWrapper>
   );
 };
 
-const StyledWrapper = styled.div`
-  margin-bottom: 1rem;
-  margin-top: 0.1rem;
+const SearchWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+`;
 
-  @media (min-width: 768px) {
-    margin-bottom: 2rem;
+const SearchIcon = styled(FiSearch)`
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: ${({ theme }) => theme.colors.gray10};
+  width: 1.25rem;
+  height: 1.25rem;
+  pointer-events: none;
+`;
+
+const Input = styled.input`
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 3rem;
+  font-size: 0.9375rem;
+  border: 1px solid ${({ theme }) => theme.colors.gray6};
+  border-radius: 8px;
+  background: none;
+  color: ${({ theme }) => theme.colors.gray12};
+  transition: all 0.2s ease;
+
+  &::placeholder {
+    color: ${({ theme }) => theme.colors.gray9};
   }
 
-  .mid {
-    display: flex;
-    align-items: center;
-    background-color: ${({ theme }) => theme.colors.gray2};
-    border-radius: 1rem;
-    padding: 0.5rem;
-    border: 1px solid ${({ theme }) => theme.colors.gray4};
-  }
-
-  .input-wrapper {
-    flex: 1;
-    width: 100%;
-    padding: 0.5rem;
-    border: none;
+  &:focus {
     outline: none;
-    font-size: 1rem;
-    border-radius: 0.5rem;
-    background-color: transparent;
-    color: ${({ theme }) => theme.colors.gray12};
-    transition: all 0.2s ease;
-
-    &::placeholder {
-      color: ${({ theme }) => theme.colors.gray10};
-    }
-
-    &:focus {
-      background-color: ${({ theme }) => theme.colors.gray3};
-    }
+    border-color: ${({ theme }) => theme.colors.gray8};
+    box-shadow: 0 0 0 1px ${({ theme }) => theme.colors.gray8};
   }
 `;
 

@@ -29,10 +29,54 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 }
 
+interface PostCardProps {
+  post: TPost;
+}
+
+const PostCard: React.FC<PostCardProps> = ({ post }) => {
+  return (
+    <PostCardWrapper>
+      <StyledLink href={`/${post.slug}`}>
+        {post.thumbnail && (
+          <ImageWrapper>
+            <Image
+              src={post.thumbnail}
+              alt={post.title}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              style={{ objectFit: 'cover' }}
+            />
+          </ImageWrapper>
+        )}
+        <CardBody>
+          <PostDate>
+            {new Date(post.date?.start_date || post.createdTime).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            })}
+          </PostDate>
+          <PostTitle>{post.title}</PostTitle>
+          <PostDescription>{post.description}</PostDescription>
+          <MetadataContainer>
+            {post.categories && post.categories.length > 0 && (
+              <Categories>
+                {post.categories.map(category => (
+                  <Category key={category}>{category}</Category>
+                ))}
+              </Categories>
+            )}
+          </MetadataContainer>
+        </CardBody>
+      </StyledLink>
+    </PostCardWrapper>
+  );
+};
+
 const BlogPage: NextPageWithLayout = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  const [selectedTag, setSelectedTag] = useState<string>('');
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [mounted, setMounted] = useState(false);
   
   const { data: posts = [] } = useQuery<TPost[]>(queryKey.posts());
@@ -41,9 +85,8 @@ const BlogPage: NextPageWithLayout = () => {
     setMounted(true);
   }, []);
 
-  // Get unique categories and tags from posts
   const { categories, tags } = useMemo(() => {
-    const uniqueCategories = new Set(['All']);
+    const uniqueCategories = new Set();
     posts.forEach(post => {
       post.categories?.forEach(category => uniqueCategories.add(category));
     });
@@ -51,10 +94,30 @@ const BlogPage: NextPageWithLayout = () => {
     const tagCounts = getAllTags(posts);
     
     return { 
-      categories: Array.from(uniqueCategories),
+      categories: Array.from(uniqueCategories) as string[],
       tags: tagCounts
     };
   }, [posts]);
+
+  const handleCategoryClick = (category: string) => {
+    setSelectedCategories(prev => {
+      if (prev.includes(category)) {
+        return prev.filter(cat => cat !== category);
+      } else {
+        return [...prev, category];
+      }
+    });
+  };
+
+  const handleTagClick = (tag: string) => {
+    setSelectedTags(prev => {
+      if (prev.includes(tag)) {
+        return prev.filter(t => t !== tag);
+      } else {
+        return [...prev, tag];
+      }
+    });
+  };
 
   const filteredPosts = posts?.filter(post => {
     if (!post) return false;
@@ -64,24 +127,22 @@ const BlogPage: NextPageWithLayout = () => {
       post.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       post.tags?.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
     
-    // Category matching
-    const matchesCategory = selectedCategory === 'All' || 
-      (post.categories && post.categories.includes(selectedCategory));
+    // Category matching - show all posts if no categories selected
+    const matchesCategory = selectedCategories.length === 0 || 
+      (post.categories && post.categories.some(cat => selectedCategories.includes(cat)));
     
-    // Tag matching
-    const matchesTag = !selectedTag || 
-      (post.tags && post.tags.includes(selectedTag));
+    // Tag matching - show all posts if no tags selected
+    const matchesTags = selectedTags.length === 0 ||
+      (post.tags && post.tags.some(tag => selectedTags.includes(tag)));
     
-    return matchesSearch && matchesCategory && matchesTag;
+    return matchesSearch && matchesCategory && matchesTags;
   });
 
-  const handleTagClick = (tag: string) => {
-    if (selectedTag === tag || tag === '') {
-      setSelectedTag('');
-    } else {
-      setSelectedTag(tag);
-    }
-  };
+  const sortedTags = useMemo(() => {
+    return Object.entries(tags)
+      .sort(([, countA], [, countB]) => countB - countA)
+      .slice(0, 10); // Show only top 10 tags
+  }, [tags]);
 
   const meta = {
     title: CONFIG.blog.title,
@@ -97,87 +158,21 @@ const BlogPage: NextPageWithLayout = () => {
       <MetaConfig {...meta} />
       <BlogLayout 
         onSearch={setSearchQuery}
-        selectedCategory={selectedCategory}
-        onCategoryChange={setSelectedCategory}
+        selectedCategories={selectedCategories}
+        onCategoryChange={handleCategoryClick}
         categories={categories}
+        selectedTags={selectedTags}
+        onTagChange={handleTagClick}
+        tags={sortedTags}
       >
-        <TagsSection 
-          tags={tags}
-          selectedTag={selectedTag}
-          onTagSelect={handleTagClick}
-        />
         {!filteredPosts || filteredPosts.length === 0 ? (
-          <EmptyState>
-            <EmptyText>No posts found</EmptyText>
-            <EmptyDescription>
-              Try adjusting your search or filter criteria
-            </EmptyDescription>
-          </EmptyState>
+          <EmptyState>No posts found</EmptyState>
         ) : (
-          <BlogGrid>
-            {filteredPosts.map((post, index) => (
-              <BlogCard
-                key={post.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
-              >
-                <StyledLink href={`/${post.slug}`}>
-                  <div>
-                    {post.thumbnail && (
-                      <ImageWrapper>
-                        <Image
-                          src={post.thumbnail}
-                          alt={post.title}
-                          fill
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                          style={{ objectFit: 'cover' }}
-                          priority={index < 2}
-                        />
-                      </ImageWrapper>
-                    )}
-                    <CardBody>
-                      <PostDate>
-                        {new Date(post.date?.start_date || post.createdTime).toLocaleDateString('en-US', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric'
-                        })}
-                      </PostDate>
-                      <PostTitle>{post.title}</PostTitle>
-                      <PostDescription>{post.description}</PostDescription>
-                      <MetadataContainer>
-                        {post.categories && post.categories.length > 0 && (
-                          <Categories>
-                            {post.categories.map(category => (
-                              <Category key={category}>{category}</Category>
-                            ))}
-                          </Categories>
-                        )}
-                        {post.tags && post.tags.length > 0 && (
-                          <Tags>
-                            {post.tags.map(tag => (
-                              <Tag 
-                                key={tag}
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  e.stopPropagation();
-                                  handleTagClick(tag);
-                                }}
-                                isActive={selectedTag === tag}
-                              >
-                                {tag}
-                              </Tag>
-                            ))}
-                          </Tags>
-                        )}
-                      </MetadataContainer>
-                    </CardBody>
-                  </div>
-                </StyledLink>
-              </BlogCard>
+          <PostGrid>
+            {filteredPosts.map((post) => (
+              <PostCard key={post.id} post={post} />
             ))}
-          </BlogGrid>
+          </PostGrid>
         )}
       </BlogLayout>
     </>
@@ -193,6 +188,7 @@ const BlogGrid = styled.div`
   display: grid;
   gap: 2rem;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  margin-top: 2rem;
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
@@ -201,11 +197,12 @@ const BlogGrid = styled.div`
 `;
 
 const BlogCard = styled(motion.article)`
-  background-color: ${({ theme }) => theme.colors.gray2};
-  border: 1px solid ${({ theme }) => theme.colors.gray4};
+  border: 1px solid ${({ theme }) => theme.colors.gray6};
   border-radius: 16px;
   overflow: hidden;
   transition: all 0.2s ease-in-out;
+  height: 100%;
+  display: flex;
 
   @media (max-width: 768px) {
     border-radius: 12px;
@@ -213,22 +210,24 @@ const BlogCard = styled(motion.article)`
 
   &:hover {
     transform: translateY(-4px);
-    border-color: ${({ theme }) => theme.colors.gray6};
-    box-shadow: 0 4px 12px ${({ theme }) => theme.colors.gray4};
+    border-color: ${({ theme }) => theme.colors.gray8};
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
 `;
 
 const StyledLink = styled(Link)`
-  display: block;
+  display: flex;
+  flex-direction: column;
   text-decoration: none;
   color: inherit;
+  width: 100%;
 `;
 
 const ImageWrapper = styled.div`
   position: relative;
   width: 100%;
   height: 200px;
-  background-color: ${({ theme }) => theme.colors.gray3};
+  overflow: hidden;
 
   @media (max-width: 768px) {
     height: 180px;
@@ -237,6 +236,9 @@ const ImageWrapper = styled.div`
 
 const CardBody = styled.div`
   padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 
   @media (max-width: 768px) {
     padding: 1.25rem;
@@ -264,15 +266,17 @@ const PostDescription = styled.p`
   line-height: 1.6;
   margin-bottom: 1.25rem;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  flex: 1;
 `;
 
 const MetadataContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  margin-top: auto;
 `;
 
 const Categories = styled.div`
@@ -283,64 +287,119 @@ const Categories = styled.div`
 
 const Category = styled.span`
   font-size: 0.75rem;
-  padding: 0.25rem 0.75rem;
-  border-radius: 9999px;
-  background-color: ${({ theme }) => theme.colors.gray3};
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid ${({ theme }) => theme.colors.gray5};
   color: ${({ theme }) => theme.colors.gray11};
   white-space: nowrap;
 `;
 
-const Tags = styled.div`
+const FilterSection = styled.div`
+  margin: 0 0 2rem;
+  display: flex;
+  flex-direction: column;
+`;
+
+const FilterGroup = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+`;
+
+const TagPill = styled.button<{ isActive: boolean }>`
+  font-size: 0.75rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  background: ${({ theme, isActive }) => isActive ? theme.colors.gray3 : 'none'};
+  border: 1px solid ${({ theme, isActive }) => 
+    isActive ? theme.colors.gray8 : theme.colors.gray5};
+  color: ${({ theme, isActive }) => 
+    isActive ? theme.colors.gray12 : theme.colors.gray11};
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: ${({ theme }) => theme.colors.gray7};
+    color: ${({ theme }) => theme.colors.gray12};
+  }
+`;
+
+const MetadataRow = styled.div`
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+`;
+
+const PostTags = styled.div`
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
 `;
 
-const Tag = styled.span<{ isActive?: boolean }>`
+const PostTag = styled.button<{ isActive: boolean }>`
   font-size: 0.75rem;
-  padding: 0.25rem 0.75rem;
-  border-radius: 9999px;
-  background-color: ${({ theme, isActive }) => 
-    isActive ? theme.colors.blue5 : theme.colors.blue3};
-  color: ${({ theme }) => theme.colors.blue11};
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  background: none;
+  border: 1px solid ${({ theme, isActive }) => 
+    isActive ? theme.colors.gray7 : theme.colors.gray5};
+  color: ${({ theme, isActive }) => 
+    isActive ? theme.colors.gray12 : theme.colors.gray11};
   cursor: pointer;
   transition: all 0.2s ease;
-  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      ${({ theme }) => theme.colors.gray8},
+      transparent
+    );
+    transform: scaleX(0);
+    transition: transform 0.2s ease;
+  }
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.blue4};
+    border-color: ${({ theme }) => theme.colors.gray7};
+    color: ${({ theme }) => theme.colors.gray12};
+
+    &:after {
+      transform: scaleX(1);
+    }
   }
-`;
-
-const ActiveTag = styled.button`
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.875rem;
-  padding: 0.375rem 0.75rem;
-  border-radius: 9999px;
-  background-color: ${({ theme }) => theme.colors.blue5};
-  color: ${({ theme }) => theme.colors.blue11};
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.blue6};
-  }
-`;
-
-const CloseIcon = styled.span`
-  font-size: 1.25rem;
-  line-height: 1;
 `;
 
 const EmptyState = styled.div`
   text-align: center;
   padding: 4rem 1rem;
-  background: ${({ theme }) => theme.colors.gray2};
+  border: 1px solid ${({ theme }) => theme.colors.gray6};
   border-radius: 12px;
-  border: 1px solid ${({ theme }) => theme.colors.gray4};
+  margin-top: 2rem;
+  position: relative;
+  overflow: hidden;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      ${({ theme }) => theme.colors.gray7},
+      transparent
+    );
+  }
 
   @media (max-width: 768px) {
     padding: 2rem 1rem;
@@ -364,6 +423,37 @@ const EmptyDescription = styled.p`
 
   @media (max-width: 768px) {
     font-size: 0.875rem;
+  }
+`;
+
+const PostGrid = styled.div`
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  margin-top: 2rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+`;
+
+const PostCardWrapper = styled.div`
+  border: 1px solid ${({ theme }) => theme.colors.gray6};
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.2s ease-in-out;
+  height: 100%;
+  display: flex;
+
+  @media (max-width: 768px) {
+    border-radius: 12px;
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: ${({ theme }) => theme.colors.gray8};
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
 `;
 
