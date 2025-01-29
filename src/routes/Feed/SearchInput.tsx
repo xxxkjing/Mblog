@@ -4,11 +4,18 @@ import { FiSearch } from 'react-icons/fi';
 
 interface SearchInputProps {
   onSearch?: (value: string) => void;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const SearchInput: React.FC<SearchInputProps> = ({ onSearch }) => {
+const SearchInput: React.FC<SearchInputProps> = ({ onSearch, value, onChange }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onSearch?.(e.target.value);
+    if (onChange) {
+      onChange(e);
+    }
+    if (onSearch) {
+      onSearch(e.target.value);
+    }
   };
 
   return (
@@ -18,6 +25,7 @@ const SearchInput: React.FC<SearchInputProps> = ({ onSearch }) => {
         type="text"
         placeholder="Search posts..."
         onChange={handleChange}
+        value={value || ''}
         spellCheck={false}
       />
     </SearchWrapper>
