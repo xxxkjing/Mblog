@@ -31,9 +31,17 @@ export const getStaticProps: GetStaticProps = async () => {
 
 interface PostCardProps {
   post: TPost;
+  onTagClick?: (tag: string) => void;
+  selectedTags?: string[];
 }
 
-const PostCard: React.FC<PostCardProps> = ({ post }) => {
+const PostCard: React.FC<PostCardProps> = ({ post, onTagClick, selectedTags = [] }) => {
+  const handleTagClick = (e: React.MouseEvent, tag: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onTagClick?.(tag);
+  };
+
   return (
     <PostCardWrapper>
       <StyledLink href={`/${post.slug}`}>
@@ -59,13 +67,28 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
           <PostTitle>{post.title}</PostTitle>
           <PostDescription>{post.description}</PostDescription>
           <MetadataContainer>
-            {post.categories && post.categories.length > 0 && (
-              <Categories>
-                {post.categories.map(category => (
-                  <Category key={category}>{category}</Category>
-                ))}
-              </Categories>
-            )}
+            <MetadataRow>
+              {post.categories && post.categories.length > 0 && (
+                <Categories>
+                  {post.categories.map(category => (
+                    <Category key={category}>{category}</Category>
+                  ))}
+                </Categories>
+              )}
+              {post.tags && post.tags.length > 0 && (
+                <PostTags>
+                  {post.tags.map(tag => (
+                    <PostTag 
+                      key={tag}
+                      onClick={(e) => handleTagClick(e, tag)}
+                      isActive={selectedTags.includes(tag)}
+                    >
+                      {tag}
+                    </PostTag>
+                  ))}
+                </PostTags>
+              )}
+            </MetadataRow>
           </MetadataContainer>
         </CardBody>
       </StyledLink>
@@ -123,7 +146,8 @@ const BlogPage: NextPageWithLayout = () => {
     if (!post) return false;
     
     // Search matching
-    const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    const matchesSearch = searchQuery === '' || 
+      post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       post.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       post.tags?.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
     
@@ -158,6 +182,7 @@ const BlogPage: NextPageWithLayout = () => {
       <MetaConfig {...meta} />
       <BlogLayout 
         onSearch={setSearchQuery}
+        searchValue={searchQuery}
         selectedCategories={selectedCategories}
         onCategoryChange={handleCategoryClick}
         categories={categories}
@@ -170,7 +195,12 @@ const BlogPage: NextPageWithLayout = () => {
         ) : (
           <PostGrid>
             {filteredPosts.map((post) => (
-              <PostCard key={post.id} post={post} />
+              <PostCard 
+                key={post.id} 
+                post={post} 
+                onTagClick={handleTagClick}
+                selectedTags={selectedTags}
+              />
             ))}
           </PostGrid>
         )}
@@ -228,20 +258,24 @@ const ImageWrapper = styled.div`
   width: 100%;
   height: 200px;
   overflow: hidden;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
 
   @media (max-width: 768px) {
-    height: 180px;
+    height: 160px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
   }
 `;
 
 const CardBody = styled.div`
-  padding: 1.5rem;
+  padding: 1rem;
   flex: 1;
   display: flex;
   flex-direction: column;
 
   @media (max-width: 768px) {
-    padding: 1.25rem;
+    padding: 0.75rem;
   }
 `;
 
@@ -250,6 +284,10 @@ const PostDate = styled.time`
   color: ${({ theme }) => theme.colors.gray10};
   display: block;
   margin-bottom: 0.75rem;
+
+  @media (max-width: 768px) {
+    margin-bottom: 0.5rem;
+  }
 `;
 
 const PostTitle = styled.h2`
@@ -258,6 +296,11 @@ const PostTitle = styled.h2`
   color: ${({ theme }) => theme.colors.gray12};
   margin: 0 0 0.75rem 0;
   line-height: 1.4;
+
+  @media (max-width: 768px) {
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+  }
 `;
 
 const PostDescription = styled.p`
@@ -270,6 +313,12 @@ const PostDescription = styled.p`
   -webkit-box-orient: vertical;
   overflow: hidden;
   flex: 1;
+
+  @media (max-width: 768px) {
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+    -webkit-line-clamp: 2;
+  }
 `;
 
 const MetadataContainer = styled.div`
@@ -277,6 +326,10 @@ const MetadataContainer = styled.div`
   flex-direction: column;
   gap: 0.75rem;
   margin-top: auto;
+
+  @media (max-width: 768px) {
+    gap: 0.5rem;
+  }
 `;
 
 const Categories = styled.div`
@@ -292,6 +345,11 @@ const Category = styled.span`
   border: 1px solid ${({ theme }) => theme.colors.gray5};
   color: ${({ theme }) => theme.colors.gray11};
   white-space: nowrap;
+
+  @media (max-width: 768px) {
+    font-size: 0.6875rem;
+    padding: 0.2rem 0.4rem;
+  }
 `;
 
 const FilterSection = styled.div`
@@ -347,33 +405,15 @@ const PostTag = styled.button<{ isActive: boolean }>`
     isActive ? theme.colors.gray12 : theme.colors.gray11};
   cursor: pointer;
   transition: all 0.2s ease;
-  position: relative;
-  overflow: hidden;
 
-  &:after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(
-      to right,
-      transparent,
-      ${({ theme }) => theme.colors.gray8},
-      transparent
-    );
-    transform: scaleX(0);
-    transition: transform 0.2s ease;
+  @media (max-width: 768px) {
+    font-size: 0.6875rem;
+    padding: 0.2rem 0.4rem;
   }
 
   &:hover {
     border-color: ${({ theme }) => theme.colors.gray7};
     color: ${({ theme }) => theme.colors.gray12};
-
-    &:after {
-      transform: scaleX(1);
-    }
   }
 `;
 
@@ -383,27 +423,13 @@ const EmptyState = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.gray6};
   border-radius: 12px;
   margin-top: 2rem;
-  position: relative;
-  overflow: hidden;
-
-  &:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(
-      to right,
-      transparent,
-      ${({ theme }) => theme.colors.gray7},
-      transparent
-    );
-  }
 
   @media (max-width: 768px) {
-    padding: 2rem 1rem;
-    border-radius: 8px;
+    padding: 1.5rem 0;
+    margin: 0.5rem 0;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
   }
 `;
 
@@ -434,7 +460,9 @@ const PostGrid = styled.div`
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 1rem;
+    margin-top: 0.5rem;
+    padding: 0 0.25rem;
   }
 `;
 
@@ -445,15 +473,34 @@ const PostCardWrapper = styled.div`
   transition: all 0.2s ease-in-out;
   height: 100%;
   display: flex;
+  background: ${({ theme }) => theme.colors.gray2};
 
   @media (max-width: 768px) {
-    border-radius: 12px;
+    border-radius: 8px;
+    border: none;
   }
 
   &:hover {
     transform: translateY(-4px);
     border-color: ${({ theme }) => theme.colors.gray8};
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+    @media (max-width: 768px) {
+      transform: translateY(-2px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+  }
+`;
+
+const Container = styled.div`
+  flex: 1;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+
+  @media (max-width: 768px) {
+    padding: 1rem 0;
   }
 `;
 

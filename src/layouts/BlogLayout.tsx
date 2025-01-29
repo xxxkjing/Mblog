@@ -6,6 +6,7 @@ import SearchInput from 'src/routes/Feed/SearchInput';
 type BlogLayoutProps = {
   children: ReactNode;
   onSearch: (query: string) => void;
+  searchValue?: string;
   selectedCategories: string[];
   onCategoryChange: (category: string) => void;
   categories: string[];
@@ -17,6 +18,7 @@ type BlogLayoutProps = {
 const BlogLayout: React.FC<BlogLayoutProps> = ({
   children,
   onSearch,
+  searchValue = '',
   selectedCategories,
   onCategoryChange,
   categories,
@@ -29,7 +31,11 @@ const BlogLayout: React.FC<BlogLayoutProps> = ({
       <Container>
         <Header>
           <SearchWrapper>
-            <SearchInput onSearch={onSearch} />
+            <SearchInput 
+              onSearch={onSearch} 
+              value={searchValue}
+              onChange={(e) => onSearch(e.target.value)}
+            />
           </SearchWrapper>
           <FilterGroups>
             <Categories>
@@ -92,22 +98,34 @@ const Container = styled.div`
   padding: 2rem;
 
   @media (max-width: 768px) {
-    padding: 1.5rem;
+    padding: 1rem 0.25rem;
   }
 `;
 
 const Header = styled.header`
   margin-bottom: 2rem;
+
+  @media (max-width: 768px) {
+    margin-bottom: 1rem;
+  }
 `;
 
 const SearchWrapper = styled.div`
   margin-bottom: 1.5rem;
+
+  @media (max-width: 768px) {
+    margin-bottom: 0.75rem;
+  }
 `;
 
 const FilterGroups = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+
+  @media (max-width: 768px) {
+    gap: 0.5rem;
+  }
 `;
 
 const Categories = styled.div`
@@ -140,8 +158,12 @@ const Main = styled.main`
 const ContentWrapper = styled(motion.div)``;
 
 const Footer = styled.footer`
-  padding: 2rem;
+  padding: 2rem 0;
   border-top: 1px solid ${({ theme }) => theme.colors.gray6};
+
+  @media (max-width: 768px) {
+    padding: 1rem 0;
+  }
 `;
 
 const FooterContent = styled.div`
@@ -151,10 +173,12 @@ const FooterContent = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
+  padding: 0 2rem;
   
-  @media (max-width: 640px) {
+  @media (max-width: 768px) {
     flex-direction: column;
     text-align: center;
+    padding: 0 0.5rem;
   }
 `;
 
@@ -205,4 +229,15 @@ const TagButton = styled.button<{ isActive: boolean }>`
   }
 `;
 
-export default BlogLayout; 
+const CardBody = styled.div`
+  padding: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+
+  @media (max-width: 768px) {
+    padding: 0;
+  }
+`;
+
+export default BlogLayout;

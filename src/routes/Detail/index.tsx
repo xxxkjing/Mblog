@@ -53,7 +53,6 @@ const Detail = () => {
 const Container = styled(motion.article)`
   max-width: 800px;
   margin: 0 auto;
-  padding: 2rem 1.5rem;
 
   @media (max-width: 768px) {
     padding: 1.5rem 1rem;
