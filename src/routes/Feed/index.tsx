@@ -61,6 +61,7 @@ const StyledWrapper = styled.div`
   display: block;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: 1.5rem;
+  padding-top: 2rem;
 
   @media (min-width: 768px) {
     display: grid;

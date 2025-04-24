@@ -31,6 +31,7 @@ const StyledWrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.gray2};
   backdrop-filter: blur(10px);
   border-bottom: 1px solid ${({ theme }) => theme.colors.gray4};
+  margin-bottom: 2rem;
 
   .container {
     display: flex;

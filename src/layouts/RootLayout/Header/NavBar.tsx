@@ -7,9 +7,6 @@ const NavBar = () => {
 
   return (
     <Nav>
-      <Link href="/" legacyBehavior>
-        <NavLink isActive={router.pathname === "/"}>Me</NavLink>
-      </Link>
       <Link href="/blog" legacyBehavior>
         <NavLink isActive={router.pathname === "/blog"}>Blog</NavLink>
       </Link>

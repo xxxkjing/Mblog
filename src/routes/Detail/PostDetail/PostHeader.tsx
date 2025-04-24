@@ -47,9 +47,14 @@ const StyledWrapper = styled.div`
     font-size: 1.875rem;
     line-height: 2.25rem;
     font-weight: 700;
+    margin-bottom: 2.5rem;
+
+    @media (max-width: 768px) {
+      margin-bottom: 1.5rem;
+    }
   }
   nav {
-    margin-top: 1.5rem;
+    margin-top: 0;
     color: ${({ theme }) => theme.colors.gray11};
     > .top {
       display: flex;

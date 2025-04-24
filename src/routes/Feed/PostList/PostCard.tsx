@@ -100,9 +100,10 @@ const StyledWrapper = styled(Link)`
     }
     > .content {
       padding: 1rem;
+      padding-top: 2rem;
 
       &[data-thumb="false"] {
-        padding-top: 3.5rem;
+        padding-top: 4rem;
       }
       > .top {
         display: flex;
@@ -129,6 +130,7 @@ const StyledWrapper = styled(Link)`
       }
       > .date {
         display: flex;
+        margin-top: 1.5rem;
         margin-bottom: 1rem;
         gap: 0.5rem;
         align-items: center;

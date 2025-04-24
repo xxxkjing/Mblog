@@ -23,7 +23,7 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
             <AboutSection>
               <h1>Hi, I&apos;m <Highlight>Tejjas Kaul</Highlight></h1>
               <Description>
-                A high schooler passionate about exploring the intersections of neuroscience and design.
+                Interested in neuro-ophthalmology, design, and healthcare consulting.
               </Description>
               {mounted && (
                 <SocialLinks>
@@ -59,6 +59,11 @@ const Section = styled.div``;
 const AboutSection = styled.div`
   text-align: center;
   margin-bottom: 4rem;
+  
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 500;
+  }
 `;
 
 const Description = styled.p`
