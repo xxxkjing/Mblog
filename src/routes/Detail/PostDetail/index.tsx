@@ -52,9 +52,24 @@ const StyledWrapper = styled.div`
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
   margin: 0 auto;
+  
+  @media (max-width: 768px) {
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+    border-radius: 0;
+    margin: 0;
+    max-width: 100%;
+    box-shadow: none;
+  }
+  
   > article {
     margin: 0 auto;
     max-width: 42rem;
     padding-top: 1rem;
+    
+    @media (max-width: 768px) {
+      padding: 0.5rem 0.5rem 0;
+      max-width: 100%;
+    }
   }
 `

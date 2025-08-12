@@ -121,4 +121,110 @@ const StyledWrapper = styled.div`
   .notion-page {
     padding: 0;
   }
+  
+  /* Reset all notion elements to prevent doubling */
+  .notion-block,
+  .notion-h1,
+  .notion-h2,
+  .notion-h3,
+  .notion-text,
+  .notion-image,
+  .notion-callout,
+  .notion-quote,
+  .notion-code,
+  .notion-list,
+  .notion-divider {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  /* Natural editor-like spacing - minimal gaps */
+  .notion-h1,
+  .notion-h1.notion-h1 {
+    margin-top: 0.75rem !important;
+  }
+  
+  .notion-h2,
+  .notion-h2.notion-h2 {
+    margin-top: 0.5rem !important;
+  }
+  
+  .notion-h3,
+  .notion-h3.notion-h3 {
+    margin-top: 0.4rem !important;
+  }
+  
+  /* Text and paragraph elements - very tight */
+  .notion-text,
+  p {
+    margin-top: 0.25rem !important;
+  }
+  
+  /* Images get same spacing as text */
+  .notion-image,
+  .notion-image-block,
+  .notion-asset-wrapper,
+  .notion-asset-wrapper-image {
+    margin-top: 0.25rem !important;
+    margin-bottom: 0 !important;
+    padding: 0 !important;
+  }
+  
+  /* Override any intrinsic image spacing */
+  .notion-image img,
+  .notion-asset-wrapper img,
+  .notion-asset-wrapper-image img {
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block;
+  }
+  
+  /* Ensure consistent spacing for image captions */
+  .notion-image-caption,
+  .notion-asset-caption {
+    margin: 0.2rem 0 0 0 !important;
+    padding: 0 !important;
+  }
+  
+  /* Lists and other elements - minimal spacing */
+  .notion-list,
+  .notion-callout,
+  .notion-quote,
+  .notion-code {
+    margin-top: 0.3rem !important;
+  }
+  
+  /* Dividers - slightly more space */
+  .notion-divider {
+    margin-top: 0.6rem !important;
+  }
+  
+  /* Remove top margin from first elements to prevent extra space at top */
+  .notion-h1:first-child,
+  .notion-h2:first-child,
+  .notion-h3:first-child,
+  .notion-text:first-child,
+  .notion-image:first-child,
+  .notion-image-block:first-child,
+  .notion-asset-wrapper:first-child,
+  .notion-asset-wrapper-image:first-child,
+  .notion-list:first-child,
+  .notion-callout:first-child,
+  .notion-quote:first-child,
+  .notion-code:first-child,
+  p:first-child {
+    margin-top: 0 !important;
+  }
+  
+  /* Special case: minimal space after title */
+  .notion-title + .notion-h1,
+  .notion-title + .notion-h2,
+  .notion-title + .notion-h3,
+  .notion-title + .notion-text,
+  .notion-title + .notion-image,
+  .notion-title + .notion-image-block,
+  .notion-title + .notion-asset-wrapper,
+  .notion-title + .notion-asset-wrapper-image {
+    margin-top: 0.2rem !important;
+  }
 `

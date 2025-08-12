@@ -32,6 +32,10 @@ const StyledMain = styled.main`
   width: 100%;
   max-width: 1120px;
   padding: 0 1rem;
+  
+  @media (max-width: 768px) {
+    padding: 0 0.25rem;
+  }
 `;
 
 const Footer = styled.footer`
