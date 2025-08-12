@@ -12,7 +12,7 @@ const useMermaidEffect = () => {
     if (!elements) return
 
     for (let i = 0; i < elements.length; i++) {
-      mermaid.render(
+      (mermaid.render as any)(
         "mermaid" + i,
         elements[i].textContent || "",
         (svgCode: string) => {

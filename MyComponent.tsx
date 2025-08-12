@@ -124,31 +124,29 @@ const MyComponent: React.FC = () => {
           ←
         </CarouselButton>
         
-        <AnimatePresence initial={false} custom={direction}>
-          <CarouselTrack>
-            <CarouselItem
-              key={currentIndex}
-              custom={direction}
-              variants={slideVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{
-                x: { type: "spring", stiffness: 300, damping: 30 },
-                opacity: { duration: 0.2 }
-              }}
-            >
-              <CarouselContent>
-                <CarouselImage 
-                  src={workItems[currentIndex].image} 
-                  alt={workItems[currentIndex].title} 
-                />
-                <h3>{workItems[currentIndex].title}</h3>
-                <p>{workItems[currentIndex].description}</p>
-              </CarouselContent>
-            </CarouselItem>
-          </CarouselTrack>
-        </AnimatePresence>
+        <CarouselTrack>
+          <CarouselItem
+            key={currentIndex}
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{
+              x: { type: "spring", stiffness: 300, damping: 30 },
+              opacity: { duration: 0.2 }
+            }}
+          >
+            <CarouselContent>
+              <CarouselImage 
+                src={workItems[currentIndex].image} 
+                alt={workItems[currentIndex].title} 
+              />
+              <h3>{workItems[currentIndex].title}</h3>
+              <p>{workItems[currentIndex].description}</p>
+            </CarouselContent>
+          </CarouselItem>
+        </CarouselTrack>
 
         <CarouselButton 
           className="next" 
