@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import styled from '@emotion/styled';
 
 interface WorkItem {
@@ -9,15 +9,9 @@ interface WorkItem {
   image: string;
 }
 
-const workItems: WorkItem[] = [
-  {
-    id: 1,
-    title: "Project One",
-    description: "Description of project one",
-    image: "/path-to-image-1.jpg"
-  },
-  // Add more work items as needed
-];
+interface WorkCarouselProps {
+  workItems: WorkItem[];
+}
 
 const CarouselContainer = styled.div`
   position: relative;
@@ -40,7 +34,8 @@ const CarouselItem = styled(motion.div)`
 `;
 
 const CarouselContent = styled.div`
-  background: white;
+  background: ${({ theme }) => 
+    theme.scheme === "light" ? "white" : theme.colors.gray4};
   border-radius: 16px;
   padding: 24px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
@@ -58,11 +53,25 @@ const CarouselImage = styled.img`
   border-radius: 12px;
 `;
 
+const CarouselTitle = styled.h3`
+  color: ${({ theme }) => theme.colors.gray12};
+  margin: 16px 0 8px 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+`;
+
+const CarouselDescription = styled.p`
+  color: ${({ theme }) => theme.colors.gray11};
+  margin: 0;
+  line-height: 1.6;
+`;
+
 const CarouselButton = styled.button`
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: white;
+  background: ${({ theme }) => 
+    theme.scheme === "light" ? "white" : theme.colors.gray4};
   border: none;
   border-radius: 50%;
   width: 48px;
@@ -70,9 +79,19 @@ const CarouselButton = styled.button`
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   z-index: 2;
+  color: ${({ theme }) => theme.colors.gray11};
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   
   &:hover {
-    background: #f8f8f8;
+    background: ${({ theme }) => theme.colors.gray5};
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
   
   &.prev {
@@ -84,10 +103,8 @@ const CarouselButton = styled.button`
   }
 `;
 
-const MyComponent: React.FC = () => {
+const WorkCarousel: React.FC<WorkCarouselProps> = ({ workItems }) => {
   const [[currentIndex, direction], setPage] = useState([0, 0]);
-  const utterancesRepo = process.env.NEXT_PUBLIC_UTTERANCES_REPO;
-  const notionPageId = process.env.NOTION_PAGE_ID;
 
   const paginate = (newDirection: number) => {
     const newIndex = currentIndex + newDirection;
@@ -113,9 +130,13 @@ const MyComponent: React.FC = () => {
     })
   };
 
+  if (!workItems || workItems.length === 0) {
+    return null;
+  }
+
   return (
-    <div>
-      <CarouselContainer>
+    <CarouselContainer>
+      {workItems.length > 1 && (
         <CarouselButton 
           className="prev" 
           onClick={() => paginate(-1)}
@@ -123,31 +144,33 @@ const MyComponent: React.FC = () => {
         >
           ←
         </CarouselButton>
-        
-        <CarouselTrack>
-          <CarouselItem
-            key={currentIndex}
-            custom={direction}
-            variants={slideVariants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={{
-              x: { type: "spring", stiffness: 300, damping: 30 },
-              opacity: { duration: 0.2 }
-            }}
-          >
-            <CarouselContent>
-              <CarouselImage 
-                src={workItems[currentIndex].image} 
-                alt={workItems[currentIndex].title} 
-              />
-              <h3>{workItems[currentIndex].title}</h3>
-              <p>{workItems[currentIndex].description}</p>
-            </CarouselContent>
-          </CarouselItem>
-        </CarouselTrack>
+      )}
+      
+      <CarouselTrack>
+        <CarouselItem
+          key={currentIndex}
+          custom={direction}
+          variants={slideVariants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{
+            x: { type: "spring", stiffness: 300, damping: 30 },
+            opacity: { duration: 0.2 }
+          }}
+        >
+          <CarouselContent>
+            <CarouselImage 
+              src={workItems[currentIndex].image} 
+              alt={workItems[currentIndex].title} 
+            />
+            <CarouselTitle>{workItems[currentIndex].title}</CarouselTitle>
+            <CarouselDescription>{workItems[currentIndex].description}</CarouselDescription>
+          </CarouselContent>
+        </CarouselItem>
+      </CarouselTrack>
 
+      {workItems.length > 1 && (
         <CarouselButton 
           className="next" 
           onClick={() => paginate(1)}
@@ -155,14 +178,9 @@ const MyComponent: React.FC = () => {
         >
           →
         </CarouselButton>
-      </CarouselContainer>
-
-      <div>
-        <p>Utterances Repo: {utterancesRepo}</p>
-        <p>Notion Page ID: {notionPageId}</p>
-      </div>
-    </div>
+      )}
+    </CarouselContainer>
   );
-}
+};
 
-export default MyComponent;
+export default WorkCarousel;

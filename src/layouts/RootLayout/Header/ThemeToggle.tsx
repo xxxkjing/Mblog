@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import React from "react";
-import { FaSun, FaMoon } from  "react-icons/fa";
+import { MdSunny, MdNightlight } from "react-icons/md";
 import useScheme from "src/hooks/useScheme";
 
 
@@ -16,9 +16,9 @@ const ThemeToggle: React.FC<Props> = () => {
   return (
     <StyledWrapper scheme={scheme} onClick={handleClick}>
       {scheme === "light" ? (
-        <FaSun/>
+        <MdSunny size={18} />
       ) : (
-        <FaMoon/>
+        <MdNightlight size={18} />
       )}
     </StyledWrapper>
   );
@@ -39,4 +39,10 @@ const StyledWrapper = styled.div<StyledWrapperProps>`
   height: 30px;
   background-color: ${({ scheme }) => (scheme === "light" ? "#f0f0f0" : "#333")};
   border-radius: 50%;
+  color: ${({ scheme }) => (scheme === "light" ? "#333" : "#f0f0f0")};
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: ${({ scheme }) => (scheme === "light" ? "#e0e0e0" : "#444")};
+  }
 `;

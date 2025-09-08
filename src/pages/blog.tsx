@@ -15,7 +15,49 @@ import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getAllTags } from "src/libs/utils/notion/getAllTags";
-import TagsSection from 'src/components/TagsSection';
+
+// Project data to be included alongside blog posts
+const projectData: TPost[] = [
+  {
+    id: 'project-duke-applied-ethics',
+    title: 'Duke Applied Ethics+ & NCSSM SRIP',
+    description: 'Research initiative exploring ethical implications in technology through interactive case studies.',
+    date: { start_date: '2024-07-01' },
+    createdTime: '2024-07-01',
+    slug: 'duke-applied-ethics',
+    tags: ['Research', 'Ethics', 'Education'],
+    categories: ['Projects'],
+    thumbnail: '/images/dukeappliedethics.png',
+    status: ['Public'],
+    type: ['Post'],
+  },
+  {
+    id: 'project-brailliant',
+    title: 'Brailliant Website',
+    description: 'Accessible platform bridging visual and tactile learning through innovative Braille technology.',
+    date: { start_date: '2024-08-01' },
+    createdTime: '2024-08-01',
+    slug: 'brailliant-website',
+    tags: ['Accessibility', 'Design', 'Education'],
+    categories: ['Projects'],
+    thumbnail: '/images/braillebox.png',
+    status: ['Public'],
+    type: ['Post'],
+  },
+  {
+    id: 'project-neuro-ophthalmology',
+    title: 'Neuro-Ophthalmology Guide',
+    description: 'Digital guide exploring the intersection of neurology and ophthalmology with interactive materials.',
+    date: { start_date: '2024-03-01' },
+    createdTime: '2024-03-01',
+    slug: 'neuro-ophthalmology-guide',
+    tags: ['Neuroscience', 'Research', 'Education'],
+    categories: ['Projects'],
+    thumbnail: '/images/neuro-ophthalmology.png',
+    status: ['Public'],
+    type: ['Post'],
+  }
+];
 
 export const getStaticProps: GetStaticProps = async () => {
   const posts = filterPosts(await getPosts())
@@ -35,6 +77,13 @@ interface PostCardProps {
   selectedTags?: string[];
 }
 
+// Define project external links mapping
+const projectLinks: { [key: string]: string } = {
+  'project-duke-applied-ethics': 'https://applied-ethics.vercel.app/',
+  'project-brailliant': 'https://brailliant.vercel.app/',
+  'project-neuro-ophthalmology': 'https://tkpepper15.github.io/neuro-midterm/',
+};
+
 const PostCard: React.FC<PostCardProps> = ({ post, onTagClick, selectedTags = [] }) => {
   const handleTagClick = (e: React.MouseEvent, tag: string) => {
     e.preventDefault();
@@ -42,57 +91,80 @@ const PostCard: React.FC<PostCardProps> = ({ post, onTagClick, selectedTags = []
     onTagClick?.(tag);
   };
 
+  const isProject = post.categories?.includes('Projects');
+  const externalLink = projectLinks[post.id];
+
   return (
     <PostCardWrapper>
-      <StyledLink href={`/${post.slug}`}>
-        {post.thumbnail && (
-          <ImageWrapper>
-            <Image
-              src={post.thumbnail}
-              alt={post.title}
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              style={{ objectFit: 'cover' }}
-            />
-          </ImageWrapper>
-        )}
-        <CardBody>
-          <PostDate>
-            {new Date(post.date?.start_date || post.createdTime).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
-            })}
-          </PostDate>
-          <PostTitle>{post.title}</PostTitle>
-          <PostDescription>{post.description}</PostDescription>
-          <MetadataContainer>
-            <MetadataRow>
-              {post.categories && post.categories.length > 0 && (
-                <Categories>
-                  {post.categories.map(category => (
-                    <Category key={category}>{category}</Category>
-                  ))}
-                </Categories>
-              )}
-              {post.tags && post.tags.length > 0 && (
-                <PostTags>
-                  {post.tags.map(tag => (
-                    <PostTag 
-                      key={tag}
-                      onClick={(e) => handleTagClick(e, tag)}
-                      isActive={selectedTags.includes(tag)}
-                    >
-                      {tag}
-                    </PostTag>
-                  ))}
-                </PostTags>
-              )}
-            </MetadataRow>
-          </MetadataContainer>
-        </CardBody>
-      </StyledLink>
+      {isProject && externalLink ? (
+        <ExternalStyledLink href={externalLink} target="_blank" rel="noopener noreferrer">
+          <PostCardContent post={post} onTagClick={handleTagClick} selectedTags={selectedTags} />
+        </ExternalStyledLink>
+      ) : (
+        <StyledLink href={`/${post.slug}`}>
+          <PostCardContent post={post} onTagClick={handleTagClick} selectedTags={selectedTags} />
+        </StyledLink>
+      )}
     </PostCardWrapper>
+  );
+};
+
+interface PostCardContentProps {
+  post: TPost;
+  onTagClick: (e: React.MouseEvent, tag: string) => void;
+  selectedTags: string[];
+}
+
+const PostCardContent: React.FC<PostCardContentProps> = ({ post, onTagClick, selectedTags }) => {
+  return (
+    <>
+      {post.thumbnail && (
+        <ImageWrapper>
+          <Image
+            src={post.thumbnail}
+            alt={post.title}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            style={{ objectFit: 'cover' }}
+          />
+        </ImageWrapper>
+      )}
+      <CardBody>
+        <PostDate>
+          {new Date(post.date?.start_date || post.createdTime).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          })}
+        </PostDate>
+        <PostTitle>{post.title}</PostTitle>
+        <PostDescription>{post.description || post.summary}</PostDescription>
+        <MetadataContainer>
+          <MetadataRow>
+            {post.categories && post.categories.length > 0 && (
+              <Categories>
+                {post.categories.map(category => (
+                  <Category key={category}>{category}</Category>
+                ))}
+              </Categories>
+            )}
+            {post.tags && post.tags.length > 0 && (
+              <PostTags>
+                {post.tags.map(tag => (
+                  <PostTag 
+                    key={tag}
+                    onClick={(e) => onTagClick(e, tag)}
+                    isActive={selectedTags.includes(tag)}
+                  >
+                    {tag}
+                  </PostTag>
+                ))}
+              </PostTags>
+            )}
+          </MetadataRow>
+        </MetadataContainer>
+      </CardBody>
+    </>
   );
 };
 
@@ -102,7 +174,16 @@ const BlogPage: NextPageWithLayout = () => {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [mounted, setMounted] = useState(false);
   
-  const { data: posts = [] } = useQuery<TPost[]>(queryKey.posts());
+  const { data: notionPosts = [] } = useQuery<TPost[]>(queryKey.posts());
+  
+  // Combine Notion posts with project data
+  const posts = useMemo(() => {
+    return [...notionPosts, ...projectData].sort((a, b) => {
+      const dateA = new Date(a.date?.start_date || a.createdTime);
+      const dateB = new Date(b.date?.start_date || b.createdTime);
+      return dateB.getTime() - dateA.getTime();
+    });
+  }, [notionPosts]);
   
   useEffect(() => {
     setMounted(true);
@@ -111,7 +192,11 @@ const BlogPage: NextPageWithLayout = () => {
   const { categories, tags } = useMemo(() => {
     const uniqueCategories = new Set();
     posts.forEach(post => {
-      post.categories?.forEach(category => uniqueCategories.add(category));
+      post.categories?.forEach(category => {
+        if (category !== 'Projects') { // Exclude Projects from category filters
+          uniqueCategories.add(category);
+        }
+      });
     });
 
     const tagCounts = getAllTags(posts);
@@ -149,6 +234,7 @@ const BlogPage: NextPageWithLayout = () => {
     const matchesSearch = searchQuery === '' || 
       post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       post.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      post.summary?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       post.tags?.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
     
     // Category matching - show all posts if no categories selected
@@ -164,6 +250,7 @@ const BlogPage: NextPageWithLayout = () => {
 
   const sortedTags = useMemo(() => {
     return Object.entries(tags)
+      .filter(([tag]) => tag !== 'Projects') // Remove Projects tag from filter buttons
       .sort(([, countA], [, countB]) => countB - countA)
       .slice(0, 10); // Show only top 10 tags
   }, [tags]);
@@ -246,6 +333,14 @@ const BlogCard = styled(motion.article)`
 `;
 
 const StyledLink = styled(Link)`
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+`;
+
+const ExternalStyledLink = styled.a`
   display: flex;
   flex-direction: column;
   text-decoration: none;

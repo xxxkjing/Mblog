@@ -125,8 +125,8 @@ const MePage: NextPageWithLayout = () => {
         <Section>
           <SectionTitle>About Me</SectionTitle>
           <ContentText>
-            I'm passionate about exploring the intersections of neuroscience and design, 
-            creating solutions that bridge technology and human experience. Currently, I'm focused on 
+            I&apos;m passionate about exploring the intersections of neuroscience and design, 
+            creating solutions that bridge technology and human experience. Currently, I&apos;m focused on 
             research in applied ethics and developing accessible technology solutions.
           </ContentText>
         </Section>
@@ -136,18 +136,24 @@ const MePage: NextPageWithLayout = () => {
           <FocusGrid>
             {mounted && (
               <>
-                <FocusCard>
-                  <IconWrapper>🧠</IconWrapper>
+                <FocusCard key="neuroscience">
+                  <IconWrapper>
+                    <Image key="neuro-icon" src="/images/hammer-saw.png" alt="Neuroscience" width={40} height={40} priority />
+                  </IconWrapper>
                   <CardTitle>Neuroscience</CardTitle>
                   <CardText>Studying brain-computer interfaces and cognitive enhancement</CardText>
                 </FocusCard>
-                <FocusCard>
-                  <IconWrapper>🎨</IconWrapper>
+                <FocusCard key="design">
+                  <IconWrapper>
+                    <Image key="design-icon" src="/images/keyboard.png" alt="Design" width={40} height={40} priority />
+                  </IconWrapper>
                   <CardTitle>Design</CardTitle>
                   <CardText>Creating accessible and intuitive user experiences</CardText>
                 </FocusCard>
-                <FocusCard>
-                  <IconWrapper>🔬</IconWrapper>
+                <FocusCard key="research">
+                  <IconWrapper>
+                    <Image key="research-icon" src="/images/doc.png" alt="Research" width={40} height={40} priority />
+                  </IconWrapper>
                   <CardTitle>Research</CardTitle>
                   <CardText>Exploring ethical implications of emerging technologies</CardText>
                 </FocusCard>
@@ -188,19 +194,19 @@ const MePage: NextPageWithLayout = () => {
           <SocialList>
             {mounted && (
               <>
-                <SocialItem>
+                <SocialItem key="resume">
                   <SocialLink href="https://docs.google.com/document/d/1SVg5OicX0dVmVkmRItPTlU5I_I7bLPGrKWgzEr2HdlA/edit?usp=sharing" target="_blank" rel="noopener noreferrer">
-                    Resume
+                    <Image key="resume-icon" src="/images/doc.png" alt="Resume" width={24} height={24} priority />
                   </SocialLink>
                 </SocialItem>
-                <SocialItem>
+                <SocialItem key="linkedin">
                   <SocialLink href="https://www.linkedin.com/in/tejjas-kaul-36091a22b/" target="_blank" rel="noopener noreferrer">
-                    LinkedIn
+                    <Image key="linkedin-icon" src="/images/linkedin.png" alt="LinkedIn" width={24} height={24} priority />
                   </SocialLink>
                 </SocialItem>
-                <SocialItem>
+                <SocialItem key="github">
                   <SocialLink href="https://github.com/tkpepper15" target="_blank" rel="noopener noreferrer">
-                    GitHub
+                    <Image key="github-icon" src="/images/github.png" alt="GitHub" width={24} height={24} priority />
                   </SocialLink>
                 </SocialItem>
               </>
@@ -286,7 +292,9 @@ const FocusCard = styled.div`
 `;
 
 const IconWrapper = styled.div`
-  font-size: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-bottom: 1rem;
 `;
 

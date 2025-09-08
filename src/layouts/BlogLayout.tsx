@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
-import SearchInput from 'src/routes/Feed/SearchInput';
+import SearchInput from '@/shared/components/SearchInput';
 
 type BlogLayoutProps = {
   children: ReactNode;

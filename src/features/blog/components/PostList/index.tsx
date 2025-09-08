@@ -1,6 +1,6 @@
 import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
-import PostCard from "src/routes/Feed/PostList/PostCard"
+import PostCard from "./PostCard"
 import { DEFAULT_CATEGORY } from "src/constants"
 import usePostsQuery from "src/hooks/usePostsQuery"
 import { getAllSelectItemsFromPosts } from "src/libs/utils/notion/getAllSelectItemsFromPosts"

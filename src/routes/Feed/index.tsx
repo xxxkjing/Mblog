@@ -1,15 +1,15 @@
 import { useState } from "react"
 
-import SearchInput from "./SearchInput"
-import { FeedHeader } from "./FeedHeader"
-import Footer from "./Footer"
+import SearchInput from "@/shared/components/SearchInput"
+import { FeedHeader } from "@/features/blog/components/FeedHeader"
+import Footer from "@/shared/components/Footer"
 import styled from "@emotion/styled"
 import TagList from "./TagList"
-import MobileProfileCard from "./MobileProfileCard"
-import ProfileCard from "./ProfileCard"
+import MobileProfileCard from "@/features/profile/components/MobileProfileCard"
+import ProfileCard from "@/features/profile/components/ProfileCard"
 import ServiceCard from "./ServiceCard"
-import ContactCard from "./ContactCard"
-import PostList from "./PostList"
+import ContactCard from "@/features/profile/components/ContactCard"
+import PostList from "@/features/blog/components/PostList"
 
 type Props = {}
 

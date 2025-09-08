@@ -1,10 +1,7 @@
 import { CONFIG } from "site.config"
 import React from "react"
 import {
-  AiOutlineInstagram,
-  AiOutlineGithub,
   AiOutlineMail,
-  AiFillLinkedin,
 } from "react-icons/ai"
 import styled from "@emotion/styled"
 
@@ -19,7 +16,7 @@ const ContactCard: React.FC = () => {
             rel="noreferrer"
             target="_blank"
           >
-            <AiFillLinkedin className="icon" />
+        <img src="/images/linkedin.png" alt="LinkedIn" className="icon" />
             <div className="name">linkedin</div>
           </a>
         )}
@@ -29,7 +26,7 @@ const ContactCard: React.FC = () => {
             rel="noreferrer"
             target="_blank"
           >
-            <AiOutlineGithub className="icon" />
+            <img src="/images/github.png" alt="GitHub" className="icon" />
             <div className="name">github</div>
           </a>
         )}
@@ -39,7 +36,7 @@ const ContactCard: React.FC = () => {
             rel="noreferrer"
             target="_blank"
           >
-            <AiOutlineInstagram className="icon" />
+            <img src="/images/instagram.png" alt="Instagram" className="icon" />
             <div className="name">instagram</div>
           </a>
         )}
@@ -86,8 +83,8 @@ const StyledWrapper = styled.div`
       background-color: ${({ theme }) => theme.colors.gray5};
     }
     .icon {
-      font-size: 1.5rem;
-      line-height: 2rem;
+      width: 1.5rem;
+      height: 1.5rem;
     }
     .name {
       font-size: 0.875rem;
