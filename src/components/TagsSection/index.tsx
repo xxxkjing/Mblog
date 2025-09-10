@@ -96,7 +96,7 @@ const TagItem = styled.button<{ isActive: boolean }>`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.375rem 0.75rem;
+  padding: 0.25rem 0.75rem;
   border-radius: 9999px;
   border: 1px solid ${({ theme, isActive }) => 
     isActive ? theme.colors.blue7 : theme.colors.gray4};

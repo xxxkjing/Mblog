@@ -25,8 +25,8 @@ const projectData: TPost[] = [
     date: { start_date: '2024-07-01' },
     createdTime: '2024-07-01',
     slug: 'duke-applied-ethics',
-    tags: ['Research', 'Ethics', 'Education'],
-    categories: ['Projects'],
+    tags: ['Research', 'Healthcare'],
+    categories: ['Project'],
     thumbnail: '/images/dukeappliedethics.png',
     status: ['Public'],
     type: ['Post'],
@@ -38,8 +38,8 @@ const projectData: TPost[] = [
     date: { start_date: '2024-08-01' },
     createdTime: '2024-08-01',
     slug: 'brailliant-website',
-    tags: ['Accessibility', 'Design', 'Education'],
-    categories: ['Projects'],
+    tags: ['Accessibility', 'Design'],
+    categories: ['Project'],
     thumbnail: '/images/braillebox.png',
     status: ['Public'],
     type: ['Post'],
@@ -51,8 +51,8 @@ const projectData: TPost[] = [
     date: { start_date: '2024-03-01' },
     createdTime: '2024-03-01',
     slug: 'neuro-ophthalmology-guide',
-    tags: ['Neuroscience', 'Research', 'Education'],
-    categories: ['Projects'],
+    tags: ['Neuroscience', 'Research'],
+    categories: ['Project'],
     thumbnail: '/images/neuro-ophthalmology.png',
     status: ['Public'],
     type: ['Post'],
@@ -91,7 +91,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, onTagClick, selectedTags = []
     onTagClick?.(tag);
   };
 
-  const isProject = post.categories?.includes('Projects');
+  const isProject = post.categories?.includes('Project');
   const externalLink = projectLinks[post.id];
 
   return (
@@ -141,16 +141,14 @@ const PostCardContent: React.FC<PostCardContentProps> = ({ post, onTagClick, sel
         <PostDescription>{post.description || post.summary}</PostDescription>
         <MetadataContainer>
           <MetadataRow>
-            {post.categories && post.categories.length > 0 && (
-              <Categories>
-                {post.categories.map(category => (
+            <AllTags>
+              {post.categories && post.categories.length > 0 && 
+                post.categories.map(category => (
                   <Category key={category}>{category}</Category>
-                ))}
-              </Categories>
-            )}
-            {post.tags && post.tags.length > 0 && (
-              <PostTags>
-                {post.tags.map(tag => (
+                ))
+              }
+              {post.tags && post.tags.length > 0 && 
+                post.tags.map(tag => (
                   <PostTag 
                     key={tag}
                     onClick={(e) => onTagClick(e, tag)}
@@ -158,9 +156,9 @@ const PostCardContent: React.FC<PostCardContentProps> = ({ post, onTagClick, sel
                   >
                     {tag}
                   </PostTag>
-                ))}
-              </PostTags>
-            )}
+                ))
+              }
+            </AllTags>
           </MetadataRow>
         </MetadataContainer>
       </CardBody>
@@ -193,13 +191,23 @@ const BlogPage: NextPageWithLayout = () => {
     const uniqueCategories = new Set();
     posts.forEach(post => {
       post.categories?.forEach(category => {
-        if (category !== 'Projects') { // Exclude Projects from category filters
+        if (category !== 'Project') { // Exclude Project from category filters
           uniqueCategories.add(category);
         }
       });
     });
 
+    // Get tag counts from posts
     const tagCounts = getAllTags(posts);
+    
+    // Add Project category to tags for filtering
+    const projectCount = posts.filter(post => 
+      post.categories?.includes('Project')
+    ).length;
+    
+    if (projectCount > 0) {
+      tagCounts['Project'] = projectCount;
+    }
     
     return { 
       categories: Array.from(uniqueCategories) as string[],
@@ -242,15 +250,16 @@ const BlogPage: NextPageWithLayout = () => {
       (post.categories && post.categories.some(cat => selectedCategories.includes(cat)));
     
     // Tag matching - show all posts if no tags selected
+    // Check both post.tags and post.categories (for Project tag)
     const matchesTags = selectedTags.length === 0 ||
-      (post.tags && post.tags.some(tag => selectedTags.includes(tag)));
+      (post.tags && post.tags.some(tag => selectedTags.includes(tag))) ||
+      (post.categories && post.categories.some(category => selectedTags.includes(category)));
     
     return matchesSearch && matchesCategory && matchesTags;
   });
 
   const sortedTags = useMemo(() => {
     return Object.entries(tags)
-      .filter(([tag]) => tag !== 'Projects') // Remove Projects tag from filter buttons
       .sort(([, countA], [, countB]) => countB - countA)
       .slice(0, 10); // Show only top 10 tags
   }, [tags]);
@@ -435,11 +444,13 @@ const Categories = styled.div`
 
 const Category = styled.span`
   font-size: 0.75rem;
-  padding: 0.25rem 0.5rem;
+  padding: 0.25rem 0.75rem;
   border-radius: 4px;
+  background: none;
   border: 1px solid ${({ theme }) => theme.colors.gray5};
   color: ${({ theme }) => theme.colors.gray11};
   white-space: nowrap;
+  transition: all 0.2s ease;
 
   @media (max-width: 768px) {
     font-size: 0.6875rem;
@@ -489,9 +500,15 @@ const PostTags = styled.div`
   flex-wrap: wrap;
 `;
 
+const AllTags = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+`;
+
 const PostTag = styled.button<{ isActive: boolean }>`
   font-size: 0.75rem;
-  padding: 0.25rem 0.5rem;
+  padding: 0.25rem 0.75rem;
   border-radius: 4px;
   background: none;
   border: 1px solid ${({ theme, isActive }) => 
