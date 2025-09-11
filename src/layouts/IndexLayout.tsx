@@ -25,7 +25,7 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
             <AboutSection>
               <h1>Hi, I&apos;m <Highlight>Tejjas Kaul</Highlight></h1>
               <Description>
-                Interested in neuro-ophthalmology, design, and healthcare consulting.
+                Interested in neuro-ophthalmology, design, and health tech.
               </Description>
               {mounted && (
                 <SocialLinks>
@@ -45,16 +45,7 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
-                      <NavButtonImage>
-                        <Image
-                          src="/images/keyboard.png"
-                          alt="Blog"
-                          fill
-                          sizes="120px"
-                          style={{ objectFit: 'contain' }}
-                        />
-                      </NavButtonImage>
-                      <NavButtonText>Blog</NavButtonText>
+                      <NavButtonText>What have I been up to?</NavButtonText>
                     </NavButton>
                   </Link>
                 </NavigationButtons>
