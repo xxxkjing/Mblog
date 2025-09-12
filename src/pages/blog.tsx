@@ -21,7 +21,7 @@ const projectData: TPost[] = [
   {
     id: 'project-duke-applied-ethics',
     title: 'Duke Applied Ethics+ & NCSSM SRIP',
-    description: 'Research initiative exploring ethical implications in technology through interactive case studies.',
+    description: "Research on the biopharma industry I presented at Duke, SNCURCS, and the NCSSM Alumni Weekend in 2024.",
     date: { start_date: '2024-07-01' },
     createdTime: '2024-07-01',
     slug: 'duke-applied-ethics',
