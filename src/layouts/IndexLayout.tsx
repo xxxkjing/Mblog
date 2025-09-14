@@ -5,6 +5,7 @@ import { FiFile } from "react-icons/fi";
 import { FaLinkedin, FaGithub, FaInstagram } from "react-icons/fa";
 import Link from "next/link";
 import Image from "next/image";
+import { CONFIG } from "site.config";
 
 type LayoutProps = {
   children: ReactNode;
@@ -23,18 +24,46 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
         <Main>
           <Section>
             <AboutSection>
-              <h1>Hi, I&apos;m <Highlight>Tejjas Kaul</Highlight></h1>
+              {/* 添加头像显示 */}
+              <AvatarContainer>
+                <AvatarImage
+                  src={CONFIG.profile.image}
+                  alt={CONFIG.profile.name}
+                  width={120}
+                  height={120}
+                />
+              </AvatarContainer>
+              <h1>Hi, I&apos;m <Highlight>MetaIllusion</Highlight></h1>
               <Description>
-                Interested in neuro-ophthalmology, design, and health tech.
+                记录一个不务正业的高中生的日常
               </Description>
               {mounted && (
                 <SocialLinks>
-                  <a href="https://docs.google.com/document/d/1SVg5OicX0dVmVkmRItPTlU5I_I7bLPGrKWgzEr2HdlA/edit?usp=sharing" target="_blank" rel="noopener noreferrer"><FiFile /></a>
-                  <a href="https://www.linkedin.com/in/tejjas-kaul-36091a22b/" target="_blank" rel="noopener noreferrer"><FaLinkedin /></a>
-                  <a href="https://github.com/tkpepper15" target="_blank" rel="noopener noreferrer"><FaGithub /></a>
-                  <a href="https://www.instagram.com/tejjaskphoto/" target="_blank" rel="noopener noreferrer"><FaInstagram /></a>
+                  <a href="https://github.com/xxxkjing" target="_blank" rel="noopener noreferrer"><FaGithub /></a>
+                  <a href="mailto:xkjing.xiajing@gmail.com" target="_blank" rel="noopener noreferrer"><FaEmail /></a>
                 </SocialLinks>
               )}
+              
+              {/* 添加项目展示 */}
+              {CONFIG.projects && CONFIG.projects.length > 0 && (
+                <ProjectsSection>
+                  <SectionTitle>Featured Projects</SectionTitle>
+                  <ProjectsGrid>
+                    {CONFIG.projects.map((project, index) => (
+                      <ProjectCard 
+                        key={index}
+                        href={project.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <ProjectTitle>{project.name}</ProjectTitle>
+                        <ProjectArrow>→</ProjectArrow>
+                      </ProjectCard>
+                    ))}
+                  </ProjectsGrid>
+                </ProjectsSection>
+              )}
+              
               {mounted && (
                 <NavigationButtons>
                   <Link href="/blog" passHref legacyBehavior>
@@ -80,7 +109,20 @@ const AboutSection = styled.div`
   h1 {
     font-size: 1.5rem;
     font-weight: 500;
+    margin-top: 1rem;
   }
+`;
+
+const AvatarContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+`;
+
+const AvatarImage = styled(Image)`
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid ${({ theme }) => theme.colors.gray4};
 `;
 
 const Description = styled.p`
@@ -112,6 +154,56 @@ const SocialLinks = styled.div`
       transform: translateY(-2px);
     }
   }
+`;
+
+const ProjectsSection = styled.div`
+  margin-top: 3rem;
+  text-align: left;
+`;
+
+const SectionTitle = styled.h2`
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: ${({ theme }) => theme.colors.gray12};
+`;
+
+const ProjectsGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+`;
+
+const ProjectCard = styled.a`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border: 1px solid ${({ theme }) => theme.colors.gray4};
+  border-radius: 12px;
+  background: ${({ theme }) => theme.colors.gray2};
+  transition: all 0.2s ease;
+  text-decoration: none;
+  
+  &:hover {
+    border-color: ${({ theme }) => theme.colors.gray6};
+    background: ${({ theme }) => theme.colors.gray3};
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+`;
+
+const ProjectTitle = styled.h3`
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.gray12};
+  margin: 0;
+`;
+
+const ProjectArrow = styled.span`
+  color: ${({ theme }) => theme.colors.gray10};
+  font-size: 1.2rem;
 `;
 
 const NavigationButtons = styled.div`
@@ -164,23 +256,6 @@ const NavButton = styled(motion.a)`
     width: 100%;
     max-width: 200px;
     padding: 1rem;
-  }
-`;
-
-const NavButtonImage = styled.div`
-  position: relative;
-  width: 80px;
-  height: 80px;
-  margin-bottom: 0.75rem;
-
-  @media (max-width: 640px) {
-    width: 64px;
-    height: 64px;
-  }
-
-  @media (max-width: 480px) {
-    width: 72px;
-    height: 72px;
   }
 `;
 
