@@ -9,12 +9,25 @@ const CONFIG = {
     linkedin: "",
     github: "xxxkjing",
     instagram: "",
-  },
-  projects: [
-    {
-      name: `want to get featured?`,
-      href: "https://pnlowt0ixdq.typeform.com/to/njRuaarR",
-    },
+  }
+    projects: [
+     {
+       name: `Blog`,
+       href: "https://github.com/xxxkjing/Xia",
+     },
+     {
+       name: `DownList`,
+       href: "https://github.com/xxxkjing/DownList",
+     },
+     {
+       name: `Xia So`,
+       href: "https://so.shfu.cn",
+     },
+     {
+       name: `SoftLock`,
+       href: "https://github.com/xxxkjing/SoftLock",
+     },
+   ],
   ],
   // blog setting (required)
   blog: {
